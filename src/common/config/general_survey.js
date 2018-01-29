@@ -69,11 +69,6 @@ const config = {
       id: 24,
     },
 
-    'lab-ref': {
-      label: 'Enter sample number or code from laboratory corresponding to that on box.',
-      id: 23,
-    },
-
     'field-name': {
       label: 'Enter the field name.',
       id: 25,
@@ -301,11 +296,6 @@ const config = {
       if (date === 'Invalid Date' || date > new Date()) {
         attributes.date = (new Date(date) > new Date()) ? 'Future date' : 'Invalid';
       }
-    }
-
-    // laboratory reference requied
-    if (!attrs['lab-ref']) {
-      attributes['lab-ref'] = 'Missing';
     }
 
     // sample type required

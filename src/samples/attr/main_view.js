@@ -50,7 +50,6 @@ export default Marionette.View.extend({
         break;
 
         case 'your-ref':
-        case 'lab-ref':
         case 'field-name':
         case 'field-size':
         case 'client-code':

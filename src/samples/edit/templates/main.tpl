@@ -15,18 +15,6 @@
   </li>
 
   <li class="table-view-cell">
-    <a href="#samples/<%- obj.id %>/edit/lab-ref" id="number-button"
-       class="<%- obj.locks['lab-ref'] ? 'lock' : 'navigate-right' %>">
-      <% if (obj.errors['lab-ref']) { %>
-      <span class="media-object pull-right descript error"><%- obj.errors['lab-ref'] %></span>
-      <% } else { %>
-      <span class="media-object pull-right descript"><%- obj.labRef %></span>
-      <% } %>
-      Lab reference
-    </a>
-  </li>
-
-  <li class="table-view-cell">
     <a href="#samples/<%- obj.id %>/edit/date" id="date-button"
        class="<%- obj.locks['date'] ? 'lock' : 'navigate-right' %>">
       <span class="media-object pull-right descript"><%- obj.date %></span>
