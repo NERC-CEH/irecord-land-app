@@ -23,9 +23,6 @@ export default Marionette.View.extend({
     const validationError = sample.metadata.validationError;
     const attrErrors = validationError ? {} : {};
 
-    const fieldSize = sample.get('field-size') + 
-      ($.isNumeric(sample.get('field-size')) ? ' ha' : '');
-    
     return {
       id: sample.cid,
       soilType: sample.get('soil-type'),

@@ -58,16 +58,6 @@ const config = {
       id: 24,
     },
 
-    'field-name': {
-      label: 'Enter the field name.',
-      id: 25,
-    },
-
-    'field-size': {
-      label: 'Enter the field size in hectares.',
-      id: 26,
-    },
-
     'soil-type': {
       label: 'Select the soil type.',
       id: 29,
@@ -99,40 +89,6 @@ const config = {
       values: crops,
     },
 
-    'crop-future': {
-      label: 'Select the intended future crop.',
-      id: 31,
-      values: crops,
-    },
-
-    'straw': {
-      label: 'Select whether straw has been removed.',
-      id: 32,
-      values: {
-        'Removed': 't',
-        'Not removed': 'f',
-      },
-    },
-
-    'manure': {
-      label: 'Select whether organic fertiliser has been added (includes farmyard manure, slurry, sewage sludge, compost).',
-      id: 33,
-      values: {
-        'Added': 't',
-        'Not added': 'f',
-      },
-    },
-
-    'tillage': {
-      label: 'Select the type of tillage system employed.',
-      id: 47,
-      values: {
-        'Conservation / zero tillage': 268,
-        'Minimum / non-inversion': 269,
-        'Plough-based': 270,
-      },
-    },
-
     'habitat': {
       label: 'Select the broad habitat where the sample is being taken.',
       id: 46,
@@ -161,11 +117,6 @@ const config = {
         'Suburban': 266,
         'Urban': 267,
       },
-    },
-
-    'field-notes': {
-      label: 'Add any notes relating to field management.',
-      id: 49,
     },
 
     date: {
@@ -225,14 +176,6 @@ const config = {
     // soil type required
     if (!attrs['soil-type']) {
       attributes['soil-type'] = 'Missing';
-    }
-
-    // field size numeric
-    if (attrs['field-size']) {
-      const size = new Number(attrs['field-size']);
-      if (isNaN(size)) {
-        attributes['field-size'] = 'Not numeric';
-      }
     }
 
     return [attributes, null, null];

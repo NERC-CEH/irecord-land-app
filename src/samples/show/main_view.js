@@ -65,15 +65,8 @@ export default Marionette.View.extend({
       'soil-type': sample.get('soil-type'),
       'land-use': sample.get('land-use'),
 
-      'field-name': sample.get('field-name') && StringHelp.limit(sample.get('field-name')),
-      'field-size': sample.get('field-size') + 'ha',
       'crop-present': sample.get('crop-present') && StringHelp.limit(sample.get('crop-present')),
-      'crop-future': sample.get('crop-future') && StringHelp.limit(sample.get('crop-future')),
-      straw: sample.get('straw'),
-      manure: sample.get('manure'),
-      tillage: sample.get('tillage') && StringHelp.limit(sample.get('tillage')),
       habitat: sample.get('habitat') && StringHelp.limit(sample.get('habitat')),
-      'field-notes': sample.get('field-notes') && StringHelp.limit(sample.get('field-notes')),
 
       group_title: group ? group.title : null,
       media: sample.media,

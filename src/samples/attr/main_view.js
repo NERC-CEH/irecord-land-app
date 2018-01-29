@@ -50,8 +50,6 @@ export default Marionette.View.extend({
         break;
 
         case 'your-ref':
-        case 'field-name':
-        case 'field-size':
         attrView = new InputView({
           config: surveyConfig.sample[attr],
           default: sample.get(attr),
@@ -61,10 +59,6 @@ export default Marionette.View.extend({
         case 'soil-type':
         case 'land-use':
         case 'crop-present':
-        case 'crop-future':
-        case 'straw':
-        case 'manure':
-        case 'tillage':
         case 'habitat':
         attrView = new RadioInputView({
           config: surveyConfig.sample[attr],
@@ -72,7 +66,6 @@ export default Marionette.View.extend({
         });
         break;
 
-        case 'field-notes':
         case 'comment':
         attrView = new TextareaView({
           config: surveyConfig.sample[attr],

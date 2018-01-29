@@ -40,15 +40,8 @@
   </li>
 
   <li class="table-view-cell">
-    <span class="media-object pull-right descript"><%- obj['field-name'] %></span>
-    <span class="media-object pull-right descript"><%- obj['field-size'] %></span>
     <span class="media-object pull-right descript"><%- obj['crop-present'] %></span>
-    <span class="media-object pull-right descript"><%- obj['crop-future'] %></span>
-    <span class="media-object pull-right descript"><%- obj['straw'] %></span>
-    <span class="media-object pull-right descript"><%- obj['manure'] %></span>
-    <span class="media-object pull-right descript"><%- obj['tillage'] %></span>
     <span class="media-object pull-right descript"><%- obj['habitat'] %></span>
-    <span class="media-object pull-right descript"><%- obj['field-notes'] %></span>
     Site
   </li>
   
