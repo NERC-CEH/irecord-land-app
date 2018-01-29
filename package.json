@@ -1,11 +1,11 @@
 {
-  "name": "mysoil-sample-app",
-  "id": "uk.ac.ceh.mss",
-  "title": "mySoil-Sample App",
-  "description": "Mobile application for data collection when taking soil samples.",
-  "version": "0.4.0",
+  "name": "irecord-land-app",
+  "id": "uk.ac.ceh.irl",
+  "title": "iRecord Land App",
+  "description": "Mobile application for data collection about land use and soil.",
+  "version": "0.1.0",
   "build": "1",
-  "homepage": "https://mysoilsample.org",
+  "homepage": "https://land.irecord.org.uk",
   "author": {
     "name": "Jim Bacon",
     "email": "jame2@ceh.ac.uk",
@@ -13,10 +13,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/NERC-CEH/mysoil-sample-app"
+    "url": "https://github.com/NERC-CEH/irecord-land-app"
   },
   "bugs": {
-    "url": "https://github.com/NERC-CEH/mysoil-sample-app/issues"
+    "url": "https://github.com/NERC-CEH/irecord-land-app/issues"
   },
   "licenses": [
     {
@@ -129,9 +129,9 @@
     "webpack-merge": "4.1.0"
   },
   "keywords": [
-    "mysoil",
+    "irecord",
+    "land",
     "soil",
-    "sample",
     "mobile",
     "app",
     "offline",
