@@ -1,6 +1,6 @@
-# mysoil-sample-app
+# iRecord Land App
 
-This app started as a clone of the [iRecord App](https://github.com/NERC-CEH/irecord-app) v2.0.0. The build instructions are the same, copied.
+This app started as a clone of the  [mySoil Sample App](https://github.com/NERC-CEH/mysoil-sample-app) v0.4.0 which was, in turn, created from the [iRecord App](https://github.com/NERC-CEH/irecord-app) v2.0.0. The build instructions are the same, copied.
 
 ## Configuration
 
@@ -19,13 +19,13 @@ App configuration is hosted in multiple places. **Note:** config changes should 
 - Get a copy of the code by running:
 
 ```bash
-git clone git://github.com/NERC-CEH/mysoil-sample-app.git
+git clone git://github.com/NERC-CEH/irecord-land-app.git
 ```
 
-- Enter the `irecord-app` directory and install the npm build dependencies:
+- Enter the `irecord-land-app` directory and install the npm build dependencies:
 
 ```bash
-cd mysoil-sample-app
+cd irecord-land-app
 ```
 ```bash
 npm install
