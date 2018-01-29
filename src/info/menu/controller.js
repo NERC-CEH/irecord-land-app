@@ -14,7 +14,7 @@ const API = {
 
     const headerView = new HeaderView({
       model: new Backbone.Model({
-        title: 'mySoil Sample',
+        title: 'iRecord Land',
       }),
       classes: 'non-capitalize',
     });

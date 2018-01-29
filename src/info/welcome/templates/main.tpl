@@ -4,8 +4,7 @@
       <div class="swap first">
         <div class="message">
           <h2>Welcome</h2>
-          <p><b>mySoil Sample</b> is a platform for recording and managing
-            soil sample data.
+          <p><b>iRecord Land</b> is an app for monitoring land use and soil.
             Learn more by swiping left.</p>
         </div>
       </div>
@@ -13,13 +12,13 @@
         <div class="message">
           <h2>Record</h2>
           <p><b>Enter</b> records through this app. <b>Review</b> your record history
-            and laboratory analyses on line.</p>
+            on line.</p>
         </div>
       </div>
       <div class="swap third">
         <div class="message">
           <h2>Accuracy</h2>
-          <p>Benefit from your <b>GPS</b> location,
+          <p>Takes advantage of your <b>GPS</b> location,
             automatic <b>validation</b> and reliable data <b>storage</b>.</p>
         </div>
       </div>

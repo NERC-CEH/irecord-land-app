@@ -21,7 +21,7 @@
     <a class="collapsed" data-toggle="collapse" data-parent="#accordion"
        href="#c3" aria-expanded="false" aria-controls="c3">
       <span class="icon icon-collapse pull-left"></span>
-      Sync. with mySoil Sample
+      Sync. with database
     </a>
     <p id="c3" class="collapse"
        aria-labelledby="headingTwo" aria-expanded="false">
@@ -39,7 +39,7 @@
       (synced to the database). Once it has successfully reached
       the database the record becomes unavailable for new edits.
       To further edit it
-      please use the <a href="https://mysoilsample.org">mySoil Sample Website</a>.
+      please use the <a href="https://mysoilsample.org">iRecord Land Website</a>.
       <br>
       <br>
       <b>Note:</b> you have to be signed in to your account and have a network connection,
@@ -133,7 +133,7 @@
       <br><br>
       <b>Note:</b> only the activities that allow this mobile app records and only
       the ones that you have joined on the
-      mySoil Sample website will be available to select.
+      miRecord Land website will be available to select.
     </p>
   </li>
 
@@ -165,7 +165,7 @@
   </li>
   <li>
     For more help please drop us an 
-    <a href='mailto:apps%40ceh.ac.uk?subject=mySoil%20Sample%20App%20Support%20%26%20Feedback&body=%0A%0A%0AVersion%3A%20<%- obj.version %>%0ABrowser%3A <%- window.navigator.appVersion %>%0A'>email</a>.
+    <a href='mailto:apps%40ceh.ac.uk?subject=iRecord%20Land%20App%20Support%20%26%20Feedback&body=%0A%0A%0AVersion%3A%20<%- obj.version %>%0ABrowser%3A <%- window.navigator.appVersion %>%0A'>email</a>.
     </p>
   </li>
 </ul>

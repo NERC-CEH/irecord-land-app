@@ -3,11 +3,11 @@
     <% if (obj.id) { %>
     <a href="<%= obj.site_url %>/poc-user-edit?sample_id=<%= obj.id %>"
        class="btn btn-block btn-narrow">
-      Edit on mySoil Sample
+      Edit on iRecord Land
       <span class="pull-right icon icon-link-ext"></span>
     </a>
     <% } else { %>
-      Go to the <a href="<%= obj.site_url %>">mySoil Sample website</a> to edit.</p>
+      Go to the <a href="<%= obj.site_url %>">iRecord Land website</a> to edit.</p>
     <% } %>
 </div>
 

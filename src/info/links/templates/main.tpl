@@ -1,7 +1,7 @@
 <ul class="table-view">
 
   <li class="table-view-cell">
-    <p>If you have used mySoil Sample then you may also be interested in 
+    <p>If you have used iRecord Land then you may also be interested in 
     the following related apps.
      </p>
   </li>
