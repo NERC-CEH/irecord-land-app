@@ -38,15 +38,6 @@
       Location
     </a>
 
-  </li>
-  <li class="table-view-cell">
-    <a href="#samples/<%- obj.id %>/edit/country" id="country-button"
-       class="<%- obj.locks['country'] ? 'lock' : 'navigate-right' %>">
-      <span class="media-object pull-right descript"><%- obj.country %></span>
-      Country
-    </a>
-  </li>
-
   <li class="table-view-cell">
     <a href="#samples/<%- obj.id %>/edit/soil" id="soil-button" 
       class="navigate-right">

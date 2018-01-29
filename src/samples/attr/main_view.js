@@ -59,7 +59,6 @@ export default Marionette.View.extend({
         });
         break;
 
-        case 'country':
         case 'depth':
         case 'sample-type':
         case 'soil-type':

@@ -61,7 +61,6 @@ export default Marionette.View.extend({
       location: locationPrint,
       locationName: location.name,
       date: DateHelp.print(sample.get('date'), true),
-      country: sample.get('country'),
 
       depth: sample.get('depth'),
       'sample-type': sample.get('sample-type'),

@@ -52,7 +52,6 @@ export default Marionette.View.extend({
       location: appModel.isAttrLocked('location', location),
       locationName: appModel.isAttrLocked('locationName', location.name),
       activity: appModel.isAttrLocked('activity', sample.get('group')),
-      activity: appModel.isAttrLocked('country', sample.get('country')),
       activity: appModel.isAttrLocked('your-ref', sample.get('your-ref')),
     };
 
@@ -75,7 +74,6 @@ export default Marionette.View.extend({
       locationName: location.name,
       yourRef: sample.get('your-ref') && StringHelp.limit(sample.get('your-ref')),
       date: DateHelp.print(sample.get('date'), true),
-      country: sample.get('country'),
       soil: sample.get('depth') && StringHelp.limit(sample.get('depth')),
       site: sample.get('field-name') && StringHelp.limit(sample.get('field-name')),
       laboratory: sample.get('lab-name') && StringHelp.limit(sample.get('lab-name')),

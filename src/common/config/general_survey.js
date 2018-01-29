@@ -53,17 +53,6 @@ const config = {
 
     uid: { id: 35 },
 
-    country: {
-      label: 'Please pick the country where you are working.',
-      id: 21,
-      values: {
-        'England': 139,
-        'Wales': 140,
-        'Scotland': 141,
-        'N. Ireland': 235,
-      },
-    },
-
     'your-ref': {
       label: 'Add your own reference, if you wish, to help identify the sample.',
       id: 24,

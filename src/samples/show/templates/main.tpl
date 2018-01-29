@@ -34,11 +34,6 @@
   </li>
 
   <li class="table-view-cell">
-    <span class="media-object pull-right descript"><%- obj.country %></span>
-    Country
-  </li>
-
-  <li class="table-view-cell">
     <span class="media-object pull-right descript"><%- obj['depth'] %></span>
     <span class="media-object pull-right descript"><%- obj['sample-type'] %></span>
     <span class="media-object pull-right descript"><%- obj['soil-type'] %></span>
