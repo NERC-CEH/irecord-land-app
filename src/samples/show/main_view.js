@@ -81,9 +81,6 @@ export default Marionette.View.extend({
       habitat: sample.get('habitat') && StringHelp.limit(sample.get('habitat')),
       'field-notes': sample.get('field-notes') && StringHelp.limit(sample.get('field-notes')),
 
-      'lab-name': sample.get('lab-name') && StringHelp.limit(sample.get('lab-name')),
-      'client-code': sample.get('client-code') && StringHelp.limit(sample.get('client-code')),
-
       group_title: group ? group.title : null,
       media: sample.media,
     };

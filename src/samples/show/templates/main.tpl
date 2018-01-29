@@ -58,12 +58,6 @@
     Site
   </li>
   
-  <li class="table-view-cell">
-    <span class="media-object pull-right descript"><%- obj['lab-name'] %></span>
-    <span class="media-object pull-right descript"><%- obj['client-code'] %></span>
-    Laboratory
-  </li>
-
   <% if (obj.group_title) { %>
   <li class="table-view-cell">
     <span class="media-object pull-left icon icon-users"></span>

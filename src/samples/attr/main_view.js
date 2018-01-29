@@ -52,7 +52,6 @@ export default Marionette.View.extend({
         case 'your-ref':
         case 'field-name':
         case 'field-size':
-        case 'client-code':
         attrView = new InputView({
           config: surveyConfig.sample[attr],
           default: sample.get(attr),
@@ -71,7 +70,6 @@ export default Marionette.View.extend({
         case 'manure':
         case 'tillage':
         case 'habitat':
-        case 'lab-name':
         attrView = new RadioInputView({
           config: surveyConfig.sample[attr],
           default: sample.get(attr),

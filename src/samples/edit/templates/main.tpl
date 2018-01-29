@@ -62,18 +62,6 @@
     </a>
   </li>
 
-  <li class="table-view-cell">
-    <a href="#samples/<%- obj.id %>/edit/laboratory" id="laboratory-button" 
-      class="navigate-right">
-       <% if (obj.errors['laboratory']) { %>
-      <span class="media-object pull-right descript error">Error</span>
-      <% } else { %>
-      <span class="media-object pull-right descript"><%- obj.laboratory %></span>
-      <% } %>
-      Laboratory
-    </a>
-  </li>
-
   <% if (obj.group_title) { %>
   <li class="table-view-cell">
     <a href="#samples/<%- obj.id %>/edit/activity" id="activity-button"

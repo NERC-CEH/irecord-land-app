@@ -17,7 +17,6 @@ import EditLocationController from '../common/pages/location/controller';
 import ActivitiesController from '../common/pages/activities/controller';
 import EditSiteController from './edit/site/controller';
 import EditSoilController from './edit/soil/controller';
-import EditLaboratoryController from './edit/laboratory/controller';
 import EditAttrController from './attr/controller';
 
 App.samples = {};
@@ -58,7 +57,6 @@ const Router = Marionette.AppRouter.extend({
     'samples/:id/edit/activity(/)': ActivitiesController.show,
     'samples/:id/edit/soil(/)': EditSoilController.show,
     'samples/:id/edit/site(/)': EditSiteController.show,
-    'samples/:id/edit/laboratory(/)': EditLaboratoryController.show,
     'samples/:id/edit/:attr(/)': EditAttrController.show,
     'samples/*path': () => { radio.trigger('app:404:show'); },
   },
@@ -93,9 +91,6 @@ radio.on('samples:edit:attr', (sampleID, attrID, options = {}) => {
       break;
     case 'site':
       EditSiteController.show(sampleID);
-      break;
-    case 'laboratory':
-      EditLaboratoryController.show(sampleID);
       break;
     default:
       EditAttrController.show(sampleID, attrID);

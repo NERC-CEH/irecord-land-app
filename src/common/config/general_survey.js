@@ -218,21 +218,6 @@ const config = {
       id: 49,
     },
 
-    'lab-name': {
-      label: 'Select the laboratory that will analyse samples.',
-      id: 34,
-      values: {
-        'CEH': 229,
-        'NRM': 230,
-        'Other':271,
-      },
-    },
-
-    'client-code': {
-      label: 'Enter your client code for the laboratory.',
-      id: 22,
-    },
-
     date: {
       values(date) {
         return DateHelp.print(date);
@@ -303,16 +288,6 @@ const config = {
       if (isNaN(size)) {
         attributes['field-size'] = 'Not numeric';
       }
-    }
-
-    // lab name required
-    if (!attrs['lab-name']) {
-      attributes['lab-name'] = 'Missing';
-}
-
-    // client code required
-    if (!attrs['client-code']) {
-      attributes['client-code'] = 'Missing';
     }
 
     return [attributes, null, null];

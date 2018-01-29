@@ -58,8 +58,7 @@ export default Marionette.View.extend({
     const validationError = sample.metadata.validationError;
     const attrErrors = validationError ? {
       'soil': validationError.attributes['depth'] || validationError.attributes['sample-type'],
-      'site': validationError.attributes['field-size'],
-      'laboratory': validationError.attributes['lab-name'] || validationError.attributes['client-code'],
+      'site': validationError.attributes['field-size']
     } : {};
 
     // show activity title.
@@ -76,7 +75,6 @@ export default Marionette.View.extend({
       date: DateHelp.print(sample.get('date'), true),
       soil: sample.get('depth') && StringHelp.limit(sample.get('depth')),
       site: sample.get('field-name') && StringHelp.limit(sample.get('field-name')),
-      laboratory: sample.get('lab-name') && StringHelp.limit(sample.get('lab-name')),
       group_title: group ? group.title : null,
       group,
       locks: attrLocks,
