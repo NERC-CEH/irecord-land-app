@@ -57,7 +57,7 @@ export default Marionette.View.extend({
 
     const validationError = sample.metadata.validationError;
     const attrErrors = validationError ? {
-      'soil': validationError.attributes['depth'] || validationError.attributes['sample-type'],
+      'soil': validationError.attributes['soil-type'],
       'site': validationError.attributes['field-size']
     } : {};
 
@@ -73,7 +73,7 @@ export default Marionette.View.extend({
       locationName: location.name,
       yourRef: sample.get('your-ref') && StringHelp.limit(sample.get('your-ref')),
       date: DateHelp.print(sample.get('date'), true),
-      soil: sample.get('depth') && StringHelp.limit(sample.get('depth')),
+      soil: sample.get('soil-type') && StringHelp.limit(sample.get('soil-type')),
       site: sample.get('field-name') && StringHelp.limit(sample.get('field-name')),
       group_title: group ? group.title : null,
       group,

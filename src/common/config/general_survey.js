@@ -68,25 +68,6 @@ const config = {
       id: 26,
     },
 
-    'depth': {
-      label: 'Select the sample depth.',
-      id: 27,
-      values: {
-        '0-7.5 cm RB209 Long term grassland': 236,
-        '0-15 cm RB209 Arable and field vegetables': 237,
-        'Other': 238,
-      },
-    },
-
-    'sample-type': {
-      label: 'Select the sample type.',
-      id: 28,
-      values: {
-        'Point (single location)': 142,
-        'Field average (e.g. RB209 W)': 143,
-      },
-    },
-
     'soil-type': {
       label: 'Select the soil type.',
       id: 29,
@@ -97,32 +78,6 @@ const config = {
         'Organic - high OM content': 147,
         'Peaty soils': 148,
       },
-    },
-
-    'calcareous': {
-      label: 'Select whether your soil is on chalk or limestone.',
-      id: 45,
-      values: {
-        'Yes': 't',
-        'No': 'f',
-      },
-    },
-
-    'structure-score': {
-      label: 'Select the structure score (VESS).',
-      id: 44,
-      values: {
-        '1': 1,
-        '2': 2,
-        '3': 3,
-        '4': 4,
-        '5': 5,
-      },
-    },
-
-    'structure-notes': {
-      label: 'Add any notes relating to soil structure.',
-      id: 48,
     },
 
     'land-use': {
@@ -136,11 +91,6 @@ const config = {
         'Grassland - intensively managed': 243,
         'Grassland - permanent pasture': 244,
       },
-    },
-
-    'sample-notes': {
-      label: 'Add any notes relating to the collected sample.',
-      id: 50,
     },
 
     'crop-present': {
@@ -272,14 +222,9 @@ const config = {
       }
     }
 
-    // sample type required
-    if (!attrs['sample-type']) {
-      attributes['sample-type'] = 'Missing';
-    }
-
-    // sample depth required
-    if (!attrs['depth']) {
-      attributes['depth'] = 'Missing';
+    // soil type required
+    if (!attrs['soil-type']) {
+      attributes['soil-type'] = 'Missing';
     }
 
     // field size numeric

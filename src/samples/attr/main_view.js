@@ -58,11 +58,7 @@ export default Marionette.View.extend({
         });
         break;
 
-        case 'depth':
-        case 'sample-type':
         case 'soil-type':
-        case 'calcareous':
-        case 'structure-score':
         case 'land-use':
         case 'crop-present':
         case 'crop-future':
@@ -76,8 +72,6 @@ export default Marionette.View.extend({
         });
         break;
 
-        case 'structure-notes':
-        case 'sample-notes':
         case 'field-notes':
         case 'comment':
         attrView = new TextareaView({

@@ -34,14 +34,8 @@
   </li>
 
   <li class="table-view-cell">
-    <span class="media-object pull-right descript"><%- obj['depth'] %></span>
-    <span class="media-object pull-right descript"><%- obj['sample-type'] %></span>
     <span class="media-object pull-right descript"><%- obj['soil-type'] %></span>
-    <span class="media-object pull-right descript"><%- obj['calcareous'] %></span>
-    <span class="media-object pull-right descript"><%- obj['structure-score'] %></span>
-    <span class="media-object pull-right descript"><%- obj['structure-notes'] %></span>
     <span class="media-object pull-right descript"><%- obj['land-use'] %></span>
-    <span class="media-object pull-right descript"><%- obj['sample-notes'] %></span>
     Soil
   </li>
 

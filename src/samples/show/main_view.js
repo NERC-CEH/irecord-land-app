@@ -62,14 +62,8 @@ export default Marionette.View.extend({
       locationName: location.name,
       date: DateHelp.print(sample.get('date'), true),
 
-      depth: sample.get('depth'),
-      'sample-type': sample.get('sample-type'),
       'soil-type': sample.get('soil-type'),
-      calcareous: sample.get('calcareous'),
-      'structure-score': sample.get('structure-score'),
-      'structure-notes': sample.get('structure-notes'),
       'land-use': sample.get('land-use'),
-      'sample-notes': sample.get('sample-notes'),
 
       'field-name': sample.get('field-name') && StringHelp.limit(sample.get('field-name')),
       'field-size': sample.get('field-size') + 'ha',
