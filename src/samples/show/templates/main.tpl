@@ -40,6 +40,11 @@
     Soil
   </li>
 
+  <li class="table-view-cell">
+    <span class="media-object pull-right descript"><%- obj['comment'] %></span>
+    Notes
+  </li>
+
   <% if (obj.group_title) { %>
   <li class="table-view-cell">
     <span class="media-object pull-left icon icon-users"></span>

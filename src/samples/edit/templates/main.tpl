@@ -54,6 +54,14 @@
     </a>
   </li>
 
+  <li class="table-view-cell">
+    <a href="#samples/<%- obj.id %>/edit/comment" id="comment-button"
+       class="<%- obj.locks['comment'] ? 'lock' : 'navigate-right' %>">
+      <span class="media-object pull-right descript"><%- obj.comment %></span>
+      Notes
+    </a>
+  </li>
+
   <% if (obj.group_title) { %>
   <li class="table-view-cell">
     <a href="#samples/<%- obj.id %>/edit/activity" id="activity-button"
