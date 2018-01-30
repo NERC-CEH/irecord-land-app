@@ -115,8 +115,6 @@ const API = {
         savedSamples.add(sample);
         // Show sample-edit page
         radio.trigger('samples:edit', sample.cid);
-        // Show 'our reference' dialog.
-        API.ourRefMessage(sample.get('uid'));
       });
     }
   },
@@ -128,22 +126,6 @@ const API = {
     radio.trigger('app:dialog', {
       title: 'Information',
       body: 'Please log in to the app before adding a record.',
-      buttons: [{
-        id: 'ok',
-        title: 'OK',
-        onClick: App.regions.getRegion('dialog').hide,
-      }],
-    });
-  },
-
-  /**
-   * Notify the user why they are being redirected.
-   */
-  ourRefMessage(uid) {
-    radio.trigger('app:dialog', {
-      title: 'Our reference',
-      body: 'Please label the sample with our reference:' +
-          '<span class="highlight">' + uid + '</span>',
       buttons: [{
         id: 'ok',
         title: 'OK',
