@@ -57,7 +57,6 @@ export default Marionette.View.extend({
       isSynchronising: syncStatus === Indicia.SYNCHRONISING,
       onDatabase: syncStatus === Indicia.SYNCED,
       uid: sample.get('uid'),
-      'your-ref': sample.get('your-ref') && StringHelp.limit(sample.get('your-ref')),
       location: locationPrint,
       locationName: location.name,
       date: DateHelp.print(sample.get('date'), true),

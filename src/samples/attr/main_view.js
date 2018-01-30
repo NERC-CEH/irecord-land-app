@@ -49,13 +49,6 @@ export default Marionette.View.extend({
         });
         break;
 
-        case 'your-ref':
-        attrView = new InputView({
-          config: surveyConfig.sample[attr],
-          default: sample.get(attr),
-        });
-        break;
-
         case 'soil-type':
         case 'land-use':
         case 'crop-present':

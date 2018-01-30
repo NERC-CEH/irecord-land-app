@@ -18,11 +18,6 @@
   </li>
 
   <li class="table-view-cell">
-    <span class="media-object pull-right descript"><%- obj['your-ref'] %></span>
-    Your reference
-  </li>
-
-  <li class="table-view-cell">
     <span class="media-object pull-right descript"><%- obj.date %></span>
     Date
   </li>

@@ -7,14 +7,6 @@
   </li>
 
   <li class="table-view-cell">
-    <a href="#samples/<%- obj.id %>/edit/your-ref" id="your-ref-button"
-       class="<%- obj.locks['your-ref'] ? 'lock' : 'navigate-right' %>">
-      <span class="media-object pull-right descript"><%- obj.yourRef %></span>
-      Your reference
-    </a>
-  </li>
-
-  <li class="table-view-cell">
     <a href="#samples/<%- obj.id %>/edit/date" id="date-button"
        class="<%- obj.locks['date'] ? 'lock' : 'navigate-right' %>">
       <span class="media-object pull-right descript"><%- obj.date %></span>

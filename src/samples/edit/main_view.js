@@ -52,7 +52,6 @@ export default Marionette.View.extend({
       location: appModel.isAttrLocked('location', location),
       locationName: appModel.isAttrLocked('locationName', location.name),
       activity: appModel.isAttrLocked('activity', sample.get('group')),
-      activity: appModel.isAttrLocked('your-ref', sample.get('your-ref')),
     };
 
     const validationError = sample.metadata.validationError;
@@ -71,7 +70,6 @@ export default Marionette.View.extend({
       isSynchronising: sample.getSyncStatus() === Indicia.SYNCHRONISING,
       location: locationPrint,
       locationName: location.name,
-      yourRef: sample.get('your-ref') && StringHelp.limit(sample.get('your-ref')),
       date: DateHelp.print(sample.get('date'), true),
       soil: sample.get('soil-type') && StringHelp.limit(sample.get('soil-type')),
       site: sample.get('habitat') && StringHelp.limit(sample.get('habitat')),

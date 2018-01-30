@@ -53,11 +53,6 @@ const config = {
 
     uid: { id: 35 },
 
-    'your-ref': {
-      label: 'Add your own reference, if you wish, to help identify the sample.',
-      id: 24,
-    },
-
     'soil-type': {
       label: 'Select the soil type.',
       id: 29,
