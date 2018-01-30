@@ -17,7 +17,7 @@ export default Marionette.View.extend({
 
     const attrLocks = {
       'soil-type': appModel.isAttrLocked('soil-type', sample.get('soil-type')),
-      'land-use': appModel.isAttrLocked('land-use', sample.get('land-use')),
+      'soil-feature': appModel.isAttrLocked('soil-feature', sample.get('soil-feature')),
     };
 
     const validationError = sample.metadata.validationError;
@@ -26,7 +26,7 @@ export default Marionette.View.extend({
     return {
       id: sample.cid,
       soilType: sample.get('soil-type'),
-      landUse: sample.get('land-use') && StringHelp.limit(sample.get('land-use')),
+      soilFeature: sample.get('soil-feature') && StringHelp.limit(sample.get('soil-feature')),
       locks: attrLocks,
       errors: attrErrors,
     };

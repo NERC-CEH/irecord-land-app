@@ -62,9 +62,9 @@ export default Marionette.View.extend({
       date: DateHelp.print(sample.get('date'), true),
 
       'soil-type': sample.get('soil-type'),
-      'land-use': sample.get('land-use'),
+      'soil-feature': sample.get('soil-feature'),
 
-      'crop-present': sample.get('crop-present') && StringHelp.limit(sample.get('crop-present')),
+      'crop': sample.get('crop') && StringHelp.limit(sample.get('crop')),
       habitat: sample.get('habitat') && StringHelp.limit(sample.get('habitat')),
 
       group_title: group ? group.title : null,

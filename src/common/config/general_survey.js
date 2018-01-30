@@ -4,15 +4,9 @@
 import $ from 'jquery';
 import Indicia from 'indicia';
 import DateHelp from 'helpers/date';
-import cropsData from 'crops.data';
-
-const crops = {};
-cropsData.forEach((el) => {
-  crops[el.name] = el.id;
-});
 
 const config = {
-  survey_id: 2,
+  survey_id: 3,
   input_form: 'poc-recording-form',
 
   sample: {
@@ -55,38 +49,52 @@ const config = {
 
     'soil-type': {
       label: 'Select the soil type.',
-      id: 29,
+      id: 56,
       values: {
-        'Light - sand etc.': 144,
-        'Medium - loams': 145,
-        'Heavy - clay': 146,
-        'Organic - high OM content': 147,
-        'Peaty soils': 148,
+        'Sand': 284,
+        'Loam': 285,
+        'Silt': 286,
+        'Clay': 287,
       },
     },
 
-    'land-use': {
-      label: 'Select the rotational land use.',
-      id: 43,
+    'soil-feature': {
+      label: 'Select a feature, if present.',
+      id: 57,
       values: {
-        'Cropping - combinable crops': 239,
-        'Cropping - rotation including late harvested crops': 240,
-        'Cropping - rotation including leys': 241,
-        'Cropping - field-scale vegetables': 242,
-        'Grassland - intensively managed': 243,
-        'Grassland - permanent pasture': 244,
+        'Erosion water or wind': 288,
+        'Landslide': 289,
+        'Compaction / poaching / wheel ruts': 290,
+        'Dry cracking soil': 291,
+        'Soil with ponded water': 292,
+        'Soil animals mole hills / burrows': 293,
+        'Salt on surface': 294,
+        'Other': 295,
       },
     },
 
-    'crop-present': {
-      label: 'Select the crop present in the field.',
-      id: 30,
-      values: crops,
+    'crop': {
+      label: 'Select a crop, if present.',
+      id: 58,
+      values: {
+        'Barley': 272,
+        'Fallow': 273,
+        'Field bean': 274,
+        'Grass (improved)': 275,
+        'Maize': 276,
+        'Oats': 277,
+        'Oilseed rape': 278,
+        'Other crop': 279,
+        'Peas': 280,
+        'Potatoes': 281,
+        'Suger / fodder beet': 282,
+        'Wheat': 283,
+      },
     },
 
     'habitat': {
       label: 'Select the broad habitat where the sample is being taken.',
-      id: 46,
+      id: 59,
       values: {
         'Arable and horticulture': 245,
         'Calcareous grassland': 246,

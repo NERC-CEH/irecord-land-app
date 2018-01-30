@@ -50,8 +50,8 @@ export default Marionette.View.extend({
         break;
 
         case 'soil-type':
-        case 'land-use':
-        case 'crop-present':
+        case 'soil-feature':
+        case 'crop':
         case 'habitat':
         attrView = new RadioInputView({
           config: surveyConfig.sample[attr],

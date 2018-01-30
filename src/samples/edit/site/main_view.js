@@ -16,7 +16,7 @@ export default Marionette.View.extend({
     const appModel = this.model.get('appModel');
 
     const attrLocks = {
-      'crop-present': appModel.isAttrLocked('crop-present', sample.get('crop-present')),
+      'crop': appModel.isAttrLocked('crop', sample.get('crop')),
       'habitat': appModel.isAttrLocked('habitat', sample.get('habitat')),
     };
 
@@ -27,7 +27,7 @@ export default Marionette.View.extend({
 
     return {
       id: sample.cid,
-      cropPresent: sample.get('crop-present') && StringHelp.limit(sample.get('crop-present')),
+      crop: sample.get('crop') && StringHelp.limit(sample.get('crop')),
       habitat: sample.get('habitat') && StringHelp.limit(sample.get('habitat')),
       locks: attrLocks,
       errors: attrErrors,

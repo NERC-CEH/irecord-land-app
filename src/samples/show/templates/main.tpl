@@ -29,17 +29,17 @@
   </li>
 
   <li class="table-view-cell">
+    <span class="media-object pull-right descript"><%- obj['crop'] %></span>
+    <span class="media-object pull-right descript"><%- obj['habitat'] %></span>
+    Habitat & crop
+  </li>
+  
+  <li class="table-view-cell">
     <span class="media-object pull-right descript"><%- obj['soil-type'] %></span>
-    <span class="media-object pull-right descript"><%- obj['land-use'] %></span>
+    <span class="media-object pull-right descript"><%- obj['soil-feature'] %></span>
     Soil
   </li>
 
-  <li class="table-view-cell">
-    <span class="media-object pull-right descript"><%- obj['crop-present'] %></span>
-    <span class="media-object pull-right descript"><%- obj['habitat'] %></span>
-    Site
-  </li>
-  
   <% if (obj.group_title) { %>
   <li class="table-view-cell">
     <span class="media-object pull-left icon icon-users"></span>

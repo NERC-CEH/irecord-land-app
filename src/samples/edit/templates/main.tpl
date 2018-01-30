@@ -31,6 +31,18 @@
     </a>
 
   <li class="table-view-cell">
+    <a href="#samples/<%- obj.id %>/edit/site" id="site-button" 
+      class="navigate-right">
+       <% if (obj.errors['site']) { %>
+      <span class="media-object pull-right descript error">Error</span>
+      <% } else { %>
+      <span class="media-object pull-right descript"><%- obj.site %></span>
+      <% } %>
+      Habitat & crop
+    </a>
+  </li>
+
+  <li class="table-view-cell">
     <a href="#samples/<%- obj.id %>/edit/soil" id="soil-button" 
       class="navigate-right">
        <% if (obj.errors['soil']) { %>
@@ -39,18 +51,6 @@
       <span class="media-object pull-right descript"><%- obj.soil %></span>
       <% } %>
       Soil
-    </a>
-  </li>
-
-  <li class="table-view-cell">
-    <a href="#samples/<%- obj.id %>/edit/site" id="site-button" 
-      class="navigate-right">
-       <% if (obj.errors['site']) { %>
-      <span class="media-object pull-right descript error">Error</span>
-      <% } else { %>
-      <span class="media-object pull-right descript"><%- obj.site %></span>
-      <% } %>
-      Site
     </a>
   </li>
 
