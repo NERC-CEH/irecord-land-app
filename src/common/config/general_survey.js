@@ -87,7 +87,7 @@ const config = {
         'Other crop': 279,
         'Peas': 280,
         'Potatoes': 281,
-        'Suger / fodder beet': 282,
+        'Sugar / fodder beet': 282,
         'Wheat': 283,
       },
     },
