@@ -29,8 +29,8 @@
   </li>
 
   <li class="table-view-cell">
-    <span class="media-object pull-right descript"><%- obj['crop'] %></span>
     <span class="media-object pull-right descript"><%- obj['habitat'] %></span>
+    <span class="media-object pull-right descript"><%- obj['crop'] %></span>
     Habitat & crop
   </li>
   
@@ -52,6 +52,7 @@
     Activity
   </li>
   <% } %>
+  
   <% if (obj.media.length) { %>
     <li id="img-array">
       <% obj.media.each((image) =>{ %>

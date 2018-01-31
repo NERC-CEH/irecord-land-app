@@ -60,13 +60,11 @@ export default Marionette.View.extend({
       location: locationPrint,
       locationName: location.name,
       date: DateHelp.print(sample.get('date'), true),
-
       'soil-type': sample.get('soil-type'),
       'soil-feature': sample.get('soil-feature'),
-
-      'crop': sample.get('crop') && StringHelp.limit(sample.get('crop')),
+      crop: sample.get('crop') && StringHelp.limit(sample.get('crop')),
       habitat: sample.get('habitat') && StringHelp.limit(sample.get('habitat')),
-
+      comment: sample.get('comment') && StringHelp.limit(sample.get('comment')),
       group_title: group ? group.title : null,
       media: sample.media,
     };
