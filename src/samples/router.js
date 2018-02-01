@@ -15,8 +15,6 @@ import ShowController from './show/controller';
 import EditController from './edit/controller';
 import EditLocationController from '../common/pages/location/controller';
 import ActivitiesController from '../common/pages/activities/controller';
-import EditSiteController from './edit/site/controller';
-import EditSoilController from './edit/soil/controller';
 import EditAttrController from './attr/controller';
 
 App.samples = {};
@@ -55,8 +53,6 @@ const Router = Marionette.AppRouter.extend({
     'samples/:id/edit(/)': EditController.show,
     'samples/:id/edit/location(/)': EditLocationController.show,
     'samples/:id/edit/activity(/)': ActivitiesController.show,
-    'samples/:id/edit/soil(/)': EditSoilController.show,
-    'samples/:id/edit/site(/)': EditSiteController.show,
     'samples/:id/edit/:attr(/)': EditAttrController.show,
     'samples/*path': () => { radio.trigger('app:404:show'); },
   },

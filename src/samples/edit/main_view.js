@@ -51,15 +51,13 @@ export default Marionette.View.extend({
       date: appModel.isAttrLocked('date', sample.get('date')),
       location: appModel.isAttrLocked('location', location),
       locationName: appModel.isAttrLocked('locationName', location.name),
+      habitat: appModel.isAttrLocked('habitat', sample.get('habitat')),
+      crop: appModel.isAttrLocked('crop', sample.get('crop')),
+      'soil-type': appModel.isAttrLocked('soil-type', sample.get('soil-type')),
+      'soil-feature': appModel.isAttrLocked('soil-feature', sample.get('soil-feature')),
       comment: appModel.isAttrLocked('comment', sample.get('comment')),
       activity: appModel.isAttrLocked('activity', sample.get('group')),
     };
-
-    const validationError = sample.metadata.validationError;
-    const attrErrors = validationError ? {
-      'soil': validationError.attributes['soil-type'],
-      'site': validationError.attributes['habitat']
-    } : {};
 
     // show activity title.
     const group = sample.get('group');
@@ -72,13 +70,14 @@ export default Marionette.View.extend({
       location: locationPrint,
       locationName: location.name,
       date: DateHelp.print(sample.get('date'), true),
-      site: sample.get('habitat') && StringHelp.limit(sample.get('habitat')),
-      soil: sample.get('soil-type') && StringHelp.limit(sample.get('soil-type')),
+      habitat: sample.get('habitat') && StringHelp.limit(sample.get('habitat')),
+      crop: sample.get('crop') && StringHelp.limit(sample.get('crop')),
+      soilType: sample.get('soil-type'),
+      soilFeature: sample.get('soil-feature') && StringHelp.limit(sample.get('soil-feature')),
       comment: sample.get('comment') && StringHelp.limit(sample.get('comment')),
       group_title: group ? group.title : null,
       group,
       locks: attrLocks,
-      errors: attrErrors,
     };
   },
 });

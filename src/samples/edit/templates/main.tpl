@@ -29,31 +29,40 @@
       <% } %>
       Location
     </a>
+  </li>
 
   <li class="table-view-cell">
-    <a href="#samples/<%- obj.id %>/edit/site" id="site-button" 
-      class="navigate-right">
-       <% if (obj.errors['site']) { %>
-      <span class="media-object pull-right descript error">Error</span>
-      <% } else { %>
-      <span class="media-object pull-right descript"><%- obj.site %></span>
-      <% } %>
-      Habitat & crop
+    <a href="#samples/<%- obj.id %>/edit/habitat" id="habitat-button"
+       class="<%- obj.locks['habitat'] ? 'lock' : 'navigate-right' %>">
+      <span class="media-object pull-right descript"><%= obj.habitat %></span>
+      Broad habitat
     </a>
   </li>
 
   <li class="table-view-cell">
-    <a href="#samples/<%- obj.id %>/edit/soil" id="soil-button" 
-      class="navigate-right">
-       <% if (obj.errors['soil']) { %>
-      <span class="media-object pull-right descript error">Error</span>
-      <% } else { %>
-      <span class="media-object pull-right descript"><%- obj.soil %></span>
-      <% } %>
-      Soil
+    <a href="#samples/<%- obj.id %>/edit/crop" id="crop-button"
+       class="<%- obj.locks['crop'] ? 'lock' : 'navigate-right' %>">
+      <span class="media-object pull-right descript"><%= obj.crop %></span>
+      Crop type
     </a>
   </li>
 
+  <li class="table-view-cell">
+    <a href="#samples/<%- obj.id %>/edit/soil-type" id="soil-type-button"
+       class="<%- obj.locks['soil-type'] ? 'lock' : 'navigate-right' %>">
+      <span class="media-object pull-right descript"><%= obj.soilType %></span>
+      Soil type
+    </a>
+  </li>
+
+  <li class="table-view-cell">
+    <a href="#samples/<%- obj.id %>/edit/soil-feature" id="soil-feature-button"
+       class="<%- obj.locks['soil-feature'] ? 'lock' : 'navigate-right' %>">
+      <span class="media-object pull-right descript"><%= obj.soilFeature %></span>
+      Soil & landscape features
+    </a>
+  </li>
+  
   <li class="table-view-cell">
     <a href="#samples/<%- obj.id %>/edit/comment" id="comment-button"
        class="<%- obj.locks['comment'] ? 'lock' : 'navigate-right' %>">
