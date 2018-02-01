@@ -55,6 +55,8 @@ const config = {
         'Loam': 285,
         'Silt': 286,
         'Clay': 287,
+        'Organo-mineral': 296,
+        'Organic / peat': 297,
       },
     },
 
