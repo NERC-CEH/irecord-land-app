@@ -45,8 +45,6 @@ const config = {
 
     device_version: { id: 42 },
 
-    uid: { id: 35 },
-
     'soil-type': {
       label: 'Select the soil type.',
       id: 56,

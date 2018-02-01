@@ -23,10 +23,10 @@
     </div>
 
     <div class="media-body">
-      <% if (obj.uid) { %>
-      <div class="uid"> <%= obj.uid %></div>
+      <% if (obj.habitat) { %>
+      <div class="habitat"> <%= obj.habitat %></div>
       <% } else { %>
-      <div class="uid error">UID missing</div>
+      <div class="habitat error">habitat missing</div>
       <% } %>
 
       <div class="core">

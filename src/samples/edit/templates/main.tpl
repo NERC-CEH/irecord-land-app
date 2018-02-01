@@ -1,12 +1,5 @@
 <ul class="table-view core inputs no-top <%- obj.isSynchronising ? 'disabled' : '' %>">
-  <li class="table-view-cell">
-    <a id="uid-button">
-      <span class="pull-right descript"><%- obj.uid %></span>
-      Our reference
-    </a>
-  </li>
-
-  <li class="table-view-cell">
+   <li class="table-view-cell">
     <a href="#samples/<%- obj.id %>/edit/date" id="date-button"
        class="<%- obj.locks['date'] ? 'lock' : 'navigate-right' %>">
       <span class="media-object pull-right descript"><%- obj.date %></span>

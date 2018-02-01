@@ -13,11 +13,6 @@
 
 <ul class="table-view core inputs info no-top">
   <li class="table-view-cell">
-    <span class="media-object pull-right descript"><%- obj.uid %></span>
-    Our reference
-  </li>
-
-  <li class="table-view-cell">
     <span class="media-object pull-right descript"><%- obj.date %></span>
     Date
   </li>

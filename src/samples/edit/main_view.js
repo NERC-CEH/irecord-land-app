@@ -64,7 +64,6 @@ export default Marionette.View.extend({
 
     return {
       id: sample.cid,
-      uid: sample.get('uid'),
       isLocating: sample.isGPSRunning(),
       isSynchronising: sample.getSyncStatus() === Indicia.SYNCHRONISING,
       location: locationPrint,

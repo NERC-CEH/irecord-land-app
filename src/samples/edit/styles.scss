@@ -66,14 +66,6 @@ ul.table-view.inputs {
 
 .inputs a {
   padding-right: 45px !important;
-
-  /* Make extra room to display our long uid which must not be truncated. */
-  &#uid-button {
-    padding-right: 15px !important;
-    & > .descript {
-      width: auto;
-    }
-  }
 }
 
 .inputs .media-object.icon {

@@ -122,7 +122,6 @@ const SampleView = Marionette.View.extend({
 
     return {
       id: sample.cid,
-      uid:  sample.get('uid'),
       saved: sample.metadata.saved,
       training: sample.metadata.training,
       onDatabase: syncStatus === Indicia.SYNCED,
@@ -132,6 +131,7 @@ const SampleView = Marionette.View.extend({
       isSynchronising: syncStatus === Indicia.SYNCHRONISING,
       date,
       number,
+      habitat: sample.get('habitat'),
       comment: sample.get('comment'),
       group,
       img: img ? `<img src="${img}"/>` : '',
