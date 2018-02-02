@@ -11,7 +11,7 @@ const API = {
     const button = new LeafletButton({
       position: 'topright',
       className: 'gps-btn',
-      title: 'seek gps fix',
+      title: 'Seek gps fix',
       body: `<span class="icon icon-location"
                 data-source="${location.source}"></span>`,
       onClick() {

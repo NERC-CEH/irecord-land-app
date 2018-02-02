@@ -40,6 +40,8 @@ import bigu from 'bigu';
 import LeafletButton from './leaflet_button_ext';
 import mapMarker from './marker';
 import gpsFunctions from './gps';
+import './legend.scss';
+
 
 const MAX_OS_ZOOM = L.OSOpenSpace.RESOLUTIONS.length - 1;
 const MIN_WGS84_ZOOM = 5;
@@ -80,7 +82,25 @@ const API = {
     this.map.on('baselayerchange', this._updateCoordSystem, this);
     this.map.on('zoomend', this.onMapZoom, this);
 
-    // Controls
+    // Event triggered when land cover map overlay enabled.
+    this.map.on('overlayadd', () => {
+      const $legendBtn = this.$el.find('.legend-btn');
+      if ($legendBtn.length === 0) {
+        // Add the legend control if not present.
+        this.addLegend();
+      }
+      else {
+        // Show the legend control if already present.
+        $legendBtn.show();
+      }
+    }, this);
+
+    // Event triggered when land cover map overlay disabled.
+    this.map.on('overlayremove', () => {
+      this.$el.find('.legend-btn').hide()
+    }, this);
+
+    // Layer Control
     this.addControls();
 
     // GPS
@@ -112,6 +132,12 @@ const API = {
       accessToken: CONFIG.map.mapbox_api_key,
       tileSize: 256, // specify as, OS layer overwites this with 200 otherwise
       minZoom: MIN_WGS84_ZOOM,
+    });
+
+    layers.Landcover = L.tileLayer.wms('https://catalogue.ceh.ac.uk/maps/987544e0-22d8-11e4-8c21-0800200c9a66?', {
+      layers: 'WMS',
+      attribution: 'Based upon LCM2007 © NERC (CEH) 2011',
+      opacity: 0.5,
     });
 
     const start = new bigu.OSRef(0, 0).to_latLng();
@@ -150,7 +176,9 @@ const API = {
       'Ordnance Survey': this.layers.OS,
       'Open Street Map': this.layers.OSM,
       Satellite: this.layers.Satellite,
-    }, {});
+    }, {
+      'Land Cover 2007': this.layers.Landcover
+    });
     this.map.addControl(this.controls);
   },
 
@@ -165,14 +193,13 @@ const API = {
     const button = new LeafletButton({
       position: 'topright',
       className: 'past-btn',
-      title: 'navigate to past locations',
+      title: 'Navigate to past locations',
       body: '<span class="icon icon-history"></span>',
       onClick() {
         that.trigger('past:click');
       },
       maxWidth: 30,  // number
     });
-
 
     this.map.addControl(button);
     const sample = this.model.get('sample');
@@ -181,6 +208,35 @@ const API = {
     } else {
       this._set_gps_progress_feedback('');
     }
+  },
+
+  addLegend() {
+    Log('Location:MainView:Map: adding legend button.');
+
+    const that = this;
+    const legend = 'https://catalogue.ceh.ac.uk/maps/987544e0-22d8-11e4-8c21-0800200c9a66?language=eng&version=1.3.0&service=WMS&request=GetLegendGraphic&sld_version=1.1.0&layer=LC.LandCoverSurfaces&format=image/png&STYLE=default'
+    const button = new LeafletButton({
+      position: 'topright',
+      className: 'legend-btn',
+      title: 'Show legend',
+      body: `<span class="icon icon-list"></span><img src="${legend}" style="display: none"/>`,
+      onClick() {
+        that.toggleLegend();
+      },
+      maxWidth: 30,  // number
+    });
+
+    this.map.addControl(button);
+  },
+
+  toggleLegend() {
+    Log('Location:MainView:Map: toggling legend.');
+    const $btn = this.$el.find('.legend-btn');
+    const $icon = $btn.find('span');
+    const $legend = $btn.find('img');
+    $icon.toggle();
+    $legend.toggle();
+    $btn.toggleClass('leaflet-control-legend-expanded');
   },
 
   addGraticule() {

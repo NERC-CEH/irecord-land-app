@@ -1,0 +1,14 @@
+.leaflet-touch {
+  .leaflet-control-button.leaflet-control {
+    .leaflet-buttons-control-button.legend-btn {
+      &.leaflet-control-legend-expanded {
+        padding: 6px 10px 6px 6px;
+        background: #fff;
+        border-radius: 5px;
+        width: auto;
+        height: 100px;
+        overflow-y: scroll;
+      }
+    }
+  }
+}
