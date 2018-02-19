@@ -102,6 +102,8 @@ const LocationView = Marionette.View.extend({
         this._set_gps_progress_feedback('');
       }
     }
+
+    this.updateLandcover(location);
   },
 
   _getCurrentLocation() {

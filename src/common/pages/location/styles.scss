@@ -79,27 +79,6 @@
   }
 }
 
-.location-date {
-  position: absolute;
-  left: 9px;
-  bottom: 0;
-  font-weight: 200;
-  font-size: $text-font-size;
-  color: $color-gray-dark;
-}
-
-.location-source {
-  position: absolute;
-  right: 0;
-  bottom: 0;
-  font-weight: 200;
-  font-size: $text-font-size;
-  color: $color-gray-dark;
-}
-
-input#grid-ref {
-  text-transform: uppercase;
-}
 input#grid-ref {
   text-transform: uppercase;
 }
@@ -220,25 +199,28 @@ input#grid-ref:-ms-input-placeholder {
       margin-right: -2%;
     }
     
-    #location-gridref-row {
-      height: auto;
-      button.lock-btn {
-        height: 100%;
-        width: 40px;
-        position: absolute;
-        margin-top: 0;
-        margin-bottom: 0;
-        outline-style: none;
-        border-left: 1px solid #ddd;
-        padding-right: 1.4em;
-        padding-left: 0.8em;
+    button.lock-btn {
+      height: 100%;
+      width: 40px;
+      position: absolute;
+      margin-top: 0;
+      margin-bottom: 0;
+      outline-style: none;
+      border-left: 1px solid #ddd;
+      padding-right: 1.4em;
+      padding-left: 0.8em;
 
-        &:before {
-          margin: 0 auto;
-        }
+      &:before {
+        margin: 0 auto;
       }
     }
 
+    #location-gridref-row {
+      height: auto;
+      input {
+        width: auto;
+      }
+    }
     #location-name-row {
       overflow: initial;
       span {

@@ -40,6 +40,7 @@ import bigu from 'bigu';
 import LeafletButton from './leaflet_button_ext';
 import mapMarker from './marker';
 import gpsFunctions from './gps';
+import landcover from './landcover';
 import './legend.scss';
 
 
@@ -135,7 +136,7 @@ const API = {
     });
 
     layers.Landcover = L.tileLayer.wms('https://catalogue.ceh.ac.uk/maps/987544e0-22d8-11e4-8c21-0800200c9a66?', {
-      layers: 'WMS',
+      layers: 'LC.LandCoverSurfaces',
       attribution: 'Based upon LCM2007 © NERC (CEH) 2011',
       opacity: 0.5,
     });
@@ -479,5 +480,6 @@ const API = {
 
 $.extend(API, mapMarker);
 $.extend(API, gpsFunctions);
+$.extend(API, landcover);
 
 export default API;
