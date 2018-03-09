@@ -8,10 +8,10 @@
  |            WGS84   OSGB1936   GRIDREF    GPS ACC.
  |                                ACC.
  |
- |             + 18                4           10m
- |             |                   4           10m
- |             |                   3          100m
- |             | 15   9 +          3          100m
+ |             + 18   12+          4           10m
+ |             |        |          4           10m
+ |             |        |          3          100m
+ |             | 15   9 |          3          100m
  |             | 14   8 |          3          100m
  |             |        |          2         1000m
  |             | 12   6 |          2         1000m
@@ -43,11 +43,30 @@ import gpsFunctions from './gps';
 import landcover from './landcover';
 import './legend.scss';
 
+/*
+ * L.OSOpenSpace.CRS declares 10 resolutions (0-9)
+ * [2500, 1000, 500, 200, 100, 50, 25, 10, 5, 2.5]
+ * Of these, only the first 9 are of interest, the 10th being a vector
+ * map which loses all the physical features of the 1:50k raster map.
+ * Therefore we limit ourselves to MAX_OS_NATIVE_ZOOM = 8.
+ * Leaflet can scale up the last native zoom level as long as the 
+ * CRS._scales array has corresponding values. By adding three more
+ * entries to the scales array we obtain maps for zoom levels of (0-12).
+ * The offset between these and normal web mercator zoom levels is
+ * OS_ZOOM_DIFF = 6 so this is equivalent to (6-18)
+ * 
+ * Leaflet disables base maps in the layer switcher that do not support
+ * the current zoom level. It also disables the zoom buttons when you 
+ * reach the limit of zoom for the current base layer.
+ */
 
-const MAX_OS_ZOOM = L.OSOpenSpace.RESOLUTIONS.length - 1;
+const MAX_OS_ZOOM = 12;
+const MAX_OS_NATIVE_ZOOM = 8;
 const MIN_WGS84_ZOOM = 5;
 const OS_ZOOM_DIFF = 6;
-const OS_CRS = L.OSOpenSpace.getCRS(); // OS maps use different projection
+let OS_CRS = L.OSOpenSpace.CRS;
+OS_CRS.options.resolutions.push(1, 0.5, .25);
+OS_CRS._scales.push(1, 2, 4);
 
 const DEFAULT_LAYER = 'OS';
 const DEFAULT_LAYER_ZOOM = 1 + OS_ZOOM_DIFF; // 7 and not 1 because of WGS84 scale
@@ -78,10 +97,11 @@ const API = {
 
     // show default layer
     this.layers[this.currentLayer].addTo(this.map);
+    this.layers.Landcover.addTo(this.map);
     this.$container.dataset.layer = this.currentLayer; // fix the lines between the tiles
 
     this.map.on('baselayerchange', this._updateCoordSystem, this);
-    this.map.on('zoomend', this.onMapZoom, this);
+//    this.map.on('zoomend', this.onMapZoom, this);
 
     // Event triggered when land cover map overlay enabled.
     this.map.on('overlayadd', () => {
@@ -139,16 +159,22 @@ const API = {
       layers: 'LC.LandCoverSurfaces',
       attribution: 'Based upon LCM2007 © NERC (CEH) 2011',
       opacity: 0.5,
+      crs: OS_CRS,
     });
 
     const start = new bigu.OSRef(0, 0).to_latLng();
     const end = new bigu.OSRef(7 * GRID_STEP, 13 * GRID_STEP).to_latLng();
     const bounds = L.latLngBounds([start.lat, start.lng], [end.lat, end.lng]);
 
-    layers.OS = L.tileLayer.OSOpenSpace(CONFIG.map.os_api_key); // eslint-disable-line
-
+    
+    
+    layers.OS = L.OSOpenSpace.tilelayer(CONFIG.map.os_api_key, null, {
+      crs: OS_CRS,
+      maxZoom: MAX_OS_ZOOM,
+      maxNativeZoom: MAX_OS_NATIVE_ZOOM,
+    });
     layers.OS.options.bounds = bounds;
-
+    
     layers.OS.on('tileerror', (tile) => {
       let index = 0;
       const result = tile.tile.src.match(/missingTileString=(\d+)/i);
@@ -166,6 +192,26 @@ const API = {
         tile.tile.src = tile.tile.src + '&missingTileString=' + index;
       }
     });
+
+
+/**************************************************************************
+ * TODO
+ * 
+ * I want to mess with the maxZoom so that, when the OS layer is enabled,
+ * the zoom control is disabled at the correct zoom limits (>12), yet, when a
+ * web mercator layer is enabled, the layer switcher shows the OS layer as available
+ * when zoom level <= 18.
+ * Because on switching layers the zoom limits are calculated early I need
+ * to extend OSOpenSpace and overrid beforeAdd and beforeRemove
+
+    layers.OS.beforeAdd = function(map) {
+      this.options.maxZoom = MAX_OS_ZOOM;
+      L.OSOpenSpace.prototype.onAdd.call(this, map);
+    }
+
+
+
+ ****************************************************************************/
 
     return layers;
   },
@@ -305,7 +351,7 @@ const API = {
 
     if (this.currentLayer === 'OS' && !validOSZoom) {
       // change to WGS84
-      Log('Location:MainView:Map: changing to OS layer');
+      Log('Location:MainView:Map: changing to Sattelite layer');
       this.map.removeLayer(this.layers.OS);
       this.map.addLayer(this.layers.Satellite);
     } else {
@@ -315,7 +361,7 @@ const API = {
         // select OSM/Satellite
         const inGB = LocHelp.isInGB(this._getCurrentLocation());
         if (!this.currentLayerControlSelected && inGB) {
-          Log('Location:MainView:Map: changing to Sattelite layer');
+          Log('Location:MainView:Map: changing to OS layer');
           this.map.removeLayer(this.layers.Satellite);
           this.map.addLayer(this.layers.OS);
         }
@@ -372,6 +418,8 @@ const API = {
   },
 
   _updateCoordSystem(e) {
+    // Leaflet does not willingly support dynamic change of CRS, 
+    // https://github.com/Leaflet/Leaflet/issues/2553
     Log('Location:MainView:Map: updating coord system.');
 
     let nextLayer = e.name;
@@ -380,19 +428,26 @@ const API = {
 
     const center = this.map.getCenter();
     let zoom = this.getMapZoom();
-    this.map.options.crs = L.CRS.EPSG3857;
-
+   
 
     // a change from WGS84 -> OS
     if (nextLayer === 'Ordnance Survey') {
       zoom = API._deNormalizeOSzoom(zoom);
       this.map.options.crs = OS_CRS;
+      this.layers.OS.options.maxZoom = MAX_OS_ZOOM;
+      this.layers.Landcover.crs =  OS_CRS;
       nextLayer = 'OS';
+    }
+    else {
+      this.map.options.crs = L.CRS.EPSG3857;
+      this.layers.Landcover.crs =  L.CRS.EPSG3857;
+      this.layers.OS.options.maxZoom = MAX_OS_ZOOM + OS_ZOOM_DIFF;
     }
 
     this.currentLayer = nextLayer;
 
-    this.map.setView(center, zoom, { reset: true });
+    this.map.setView(center, zoom);
+    this.map._resetView(center, zoom, true);
     this.$container.dataset.layer = this.currentLayer; // fix the lines between the tiles
   },
 

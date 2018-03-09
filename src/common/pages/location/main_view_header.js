@@ -8,6 +8,8 @@ import JST from 'JST';
 import Log from 'helpers/log';
 import typeaheadSearchFn from 'helpers/typeahead_search';
 import 'typeahead';
+import StringHelp from 'helpers/string';
+
 
 const HeaderView = Marionette.View.extend({
   template: JST['common/location/header'],
@@ -25,6 +27,7 @@ const HeaderView = Marionette.View.extend({
     Log('Location:Controller:MainViewHeader: initializing.');
     const sample = this.model.get('sample');
     this.listenTo(sample, 'change:location', this.onLocationChange);
+    this.listenTo(sample, 'change:habitat', this.onHabitatChange);
 
 
     const appModel = this.model.get('appModel');
@@ -45,6 +48,16 @@ const HeaderView = Marionette.View.extend({
     this._clearGrTimeout();
     this._refreshGrErrorState(false);
     this._refreshGridRefElement(location);
+  },
+
+  /** Update the habitat descritpion display if a change is heard on the
+   * sample model.
+  */
+  onHabitatChange() {
+    Log('Location:Controller:MainViewHeader: on habitat change.');
+    const habitatValue = this.model.get('sample').get('habitat');
+    const $habitatElement = this.$el.find('#habitat-row .descript');
+    $habitatElement.text(habitatValue);
   },
 
   /**
@@ -169,7 +182,7 @@ const HeaderView = Marionette.View.extend({
     // update accuracy similarly
     const $accuracy = this.$el.find('#location-accuracy');
     value = location.accuracy;
-    $accuracy.text = value;
+    $accuracy.val(value);
   },
 
   updateLocks() {
@@ -214,6 +227,7 @@ const HeaderView = Marionette.View.extend({
     Log('Location:Controller:MainViewHeader: serializing.');
 
     const appModel = this.model.get('appModel');
+    const sample = this.model.get('sample');
     const location = this._getCurrentLocation();
     let value = location.gridref;
     let accuracy = location.accuracy;
@@ -229,18 +243,22 @@ const HeaderView = Marionette.View.extend({
 
     const disableLocationLock = location.source === 'gps';
 
-    const locationLocked = this.isLocationLocked(disableLocationLock);
-    const nameLocked = appModel.isAttrLocked('locationName', location.name);
+    const attrLocks = {
+      location: this.isLocationLocked(disableLocationLock),
+      nameLocked: appModel.isAttrLocked('locationName', location.name),
+      habitat: appModel.isAttrLocked('habitat', sample.get('habitat')),
+    };
 
     return {
+      id: sample.cid,
       hideName: this.options.hideName,
       hideLocks: this.options.hideLocks,
       disableLocationLock,
       locationName: location.name,
       locationAccuracy: accuracy,
       value,
-      locationLocked,
-      nameLocked,
+      habitat: sample.get('habitat') && StringHelp.limit(sample.get('habitat')),
+      locks: attrLocks,
     };
   },
 

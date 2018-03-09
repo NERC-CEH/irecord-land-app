@@ -103,6 +103,10 @@ const API = {
       locationName => API.updateLocationName(sample, locationName)
     );
 
+    // landcover
+    mainView.on('landcover:update', (data) => API.onLandcoverUpdate(sample, data));
+    mainView.on('landcover:error', (error) => API.onLandcoverError(error));
+
     mainView.on('lock:click:location', API.onLocationLockClick);
     mainView.on('lock:click:name', API.onNameLockClick);
 
@@ -262,6 +266,34 @@ If a better fix cannot be obtained, enter a position by hand.`;
     radio.trigger('app:dialog', {
       title: 'Location update',
       body: [msg, help].join('<br/>'),
+      buttons: [{
+        id: 'ok',
+        title: 'OK',
+        onClick: App.regions.getRegion('dialog').hide,
+      }],
+    });
+  },
+
+  onLandcoverUpdate(sample, data) {
+    if (sample.get('habitat') !== data) {
+      sample.set('habitat', data);
+//      sample.trigger('change:habitat');
+      return sample.save()
+        .catch((error) => {
+          Log(error, 'e');
+          radio.trigger('app:dialog:error', error);
+        });
+      }
+  },
+
+  onLandcoverError(error) {
+    const help = `
+We can't suggest a broad habitat due to an error.
+Please pick a value from the list instead.`;
+    radio.trigger('app:dialog', {
+      class: 'error',
+      title: 'Location error',
+      body: [error, help].join('<br/>'),
       buttons: [{
         id: 'ok',
         title: 'OK',

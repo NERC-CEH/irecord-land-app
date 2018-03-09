@@ -58,11 +58,6 @@
 
 .leaflet-container {
   background-color: white;
-
-  .leaflet-bottom,
-  .leaflet-top {
-    z-index: 100;
-  }
 }
 
 .leaflet-control-scale {
@@ -233,7 +228,7 @@ input#grid-ref:-ms-input-placeholder {
 #back-btn {
   background-color: $color-main;
   margin: -1 10 0 -2%;
-  height: 94px;
+//  height: 94px;
   color: $color-white;
   width: 55px;
 
@@ -268,5 +263,23 @@ input#location-gridref {
   }
   &[data-gr-error='error'] {
     color: $color-orange;
+  }
+}
+
+
+/* Make habitat input-row look like a table-view-cell 
+   See http://goratchet.com/components */
+
+#habitat-row {
+  padding: 11px 65px 11px 15px;
+  & > a:not(.btn) {
+    position: relative;
+    display: block;
+    padding: inherit;
+    margin: -11px -65px -11px -15px;
+    overflow: hidden;
+    color: inherit;
+    font-size: 16px;
+    padding-right: 45px;
   }
 }

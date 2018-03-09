@@ -10,7 +10,7 @@
           class="<%= obj.disableLocationLock ? 'disabled' : '' %> 
             lock-btn 
             icon 
-            icon-lock-<%- obj.locationLocked ? 'closed' : 'open' %>">
+            icon-lock-<%- obj.locks['location'] ? 'closed' : 'open' %>">
         </button>
       <% } %>
 
@@ -19,23 +19,15 @@
         title="set gridreference" 
         id="location-gridref" 
         placeholder="Coordinates" 
+        size="15"
         value="<%- obj.value %>" 
         data-source="<%- obj.locationSource %>" 
       />
       <input type="text"  
         id="location-accuracy" 
         placeholder="Accuracy" 
-        value="(accuracy <%- obj.locationAccuracy %>)" 
-        disabled 
-      />
-    </div>
-
-    <div class="input-row" id="location-landcover-row">
-      <label class="media-object pull-left icon icon-location" for="location-gridref" />
-      <input type="text"  
-        id="location-landcover" 
-        placeholder="Landcover" 
-        value="<%- obj.locationLandcover %>" 
+        size="8"
+        value="(<%- obj.locationAccuracy %>)" 
         disabled 
       />
     </div>
@@ -44,7 +36,7 @@
     <div class="input-row" id="location-name-row">
       <% if (!obj.hideLocks) { %>
         <button id="name-lock-btn" 
-          class="lock-btn icon icon-lock-<%- obj.nameLocked ? 'closed' : 'open' %>">
+          class="lock-btn icon icon-lock-<%- obj.locks['name'] ? 'closed' : 'open' %>">
         </button>
       <% } %>
 
@@ -59,5 +51,39 @@
     </div>
     <% } %>
 
+    <div class="input-row" id="habitat-row">
+      <a href="#samples/<%- obj.id %>/edit/habitat" id="habitat-button"
+        class="<%- obj.locks['habitat'] ? 'lock' : 'navigate-right' %>">
+       <span class="media-object pull-right descript"><%= obj.habitat %></span>
+       Broad habitat
+     </a>
+ 
+    </div>
+
   </div>
+
+
+<!--   <ul class="table-view core inputs no-top <%- obj.isSynchronising ? 'disabled' : '' %>">
+   <li class="table-view-cell">
+     <a href="#samples/<%- obj.id %>/edit/habitat" id="habitat-button"
+        class="<%- obj.locks['habitat'] ? 'lock' : 'navigate-right' %>">
+       <span class="media-object pull-right descript"><%= obj.habitat %></span>
+       Broad habitat
+     </a>
+   </li>
+ -->  </ul>
+ 
+ 
+
+
+<!--   <div class="input-row" id="location-landcover-row">
+    <label class="media-object pull-left icon icon-location" for="location-gridref" />
+    <input type="text"  
+      id="location-landcover" 
+      placeholder="Landcover" 
+      value="<%- obj.locationLandcover %>" 
+      disabled 
+    />
+  </div>
+ -->
 </div>
