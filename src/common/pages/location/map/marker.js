@@ -157,7 +157,7 @@ const marker = {
       source: 'map',
     };
 
-    const zoom = this.getMapZoom();
+    const zoom = this.map.getZoom();
     location.accuracy = this._mapZoomToMetres(zoom);
     location.gridref = LocHelp.locationToGrid(location);
 

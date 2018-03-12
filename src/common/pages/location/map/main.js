@@ -60,16 +60,20 @@ import './legend.scss';
  * reach the limit of zoom for the current base layer.
  */
 
-const MAX_OS_ZOOM = 12;
-const MAX_OS_NATIVE_ZOOM = 8;
-const MIN_WGS84_ZOOM = 5;
-const OS_ZOOM_DIFF = 6;
+const OS_MAX_ZOOM = 16;
+const OS_MAX_NATIVE_ZOOM = 14;
+const OS_MIN_ZOOM = 6;
+const OS_ZOOM_OFFSET = 6;
+const WGS84_MIN_ZOOM = 5;
+
 let OS_CRS = L.OSOpenSpace.CRS;
 OS_CRS.options.resolutions.push(1, 0.5, .25);
+OS_CRS.options.resolutions.unshift(160000, 80000, 40000, 20000, 10000, 5000);
 OS_CRS._scales.push(1, 2, 4);
+OS_CRS._scales.unshift(1/160000, 1/80000, 1/40000, 1/20000, 1/10000, 1/5000);
 
 const DEFAULT_LAYER = 'OS';
-const DEFAULT_LAYER_ZOOM = 1 + OS_ZOOM_DIFF; // 7 and not 1 because of WGS84 scale
+const DEFAULT_LAYER_ZOOM = 7
 const DEFAULT_CENTER = [53.7326306, -2.6546124];
 
 const GRID_STEP = 100000; // meters
@@ -101,7 +105,6 @@ const API = {
     this.$container.dataset.layer = this.currentLayer; // fix the lines between the tiles
 
     this.map.on('baselayerchange', this._updateCoordSystem, this);
-//    this.map.on('zoomend', this.onMapZoom, this);
 
     // Event triggered when land cover map overlay enabled.
     this.map.on('overlayadd', () => {
@@ -144,7 +147,7 @@ const API = {
       id: CONFIG.map.mapbox_satellite_id,
       accessToken: CONFIG.map.mapbox_api_key,
       tileSize: 256, // specify as, OS layer overwites this with 200 otherwise,
-      minZoom: MIN_WGS84_ZOOM,
+      minZoom: WGS84_MIN_ZOOM,
     });
 
     layers.OSM = L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
@@ -152,7 +155,7 @@ const API = {
       id: CONFIG.map.mapbox_osm_id,
       accessToken: CONFIG.map.mapbox_api_key,
       tileSize: 256, // specify as, OS layer overwites this with 200 otherwise
-      minZoom: MIN_WGS84_ZOOM,
+      minZoom: WGS84_MIN_ZOOM,
     });
 
     layers.Landcover = L.tileLayer.wms('https://catalogue.ceh.ac.uk/maps/987544e0-22d8-11e4-8c21-0800200c9a66?', {
@@ -170,8 +173,10 @@ const API = {
     
     layers.OS = L.OSOpenSpace.tilelayer(CONFIG.map.os_api_key, null, {
       crs: OS_CRS,
-      maxZoom: MAX_OS_ZOOM,
-      maxNativeZoom: MAX_OS_NATIVE_ZOOM,
+      maxZoom: OS_MAX_ZOOM,
+      maxNativeZoom: OS_MAX_NATIVE_ZOOM,
+      minZoom: OS_MIN_ZOOM,
+      zoomOffset: OS_ZOOM_OFFSET,
     });
     layers.OS.options.bounds = bounds;
     
@@ -192,26 +197,6 @@ const API = {
         tile.tile.src = tile.tile.src + '&missingTileString=' + index;
       }
     });
-
-
-/**************************************************************************
- * TODO
- * 
- * I want to mess with the maxZoom so that, when the OS layer is enabled,
- * the zoom control is disabled at the correct zoom limits (>12), yet, when a
- * web mercator layer is enabled, the layer switcher shows the OS layer as available
- * when zoom level <= 18.
- * Because on switching layers the zoom limits are calculated early I need
- * to extend OSOpenSpace and overrid beforeAdd and beforeRemove
-
-    layers.OS.beforeAdd = function(map) {
-      this.options.maxZoom = MAX_OS_ZOOM;
-      L.OSOpenSpace.prototype.onAdd.call(this, map);
-    }
-
-
-
- ****************************************************************************/
 
     return layers;
   },
@@ -314,7 +299,7 @@ const API = {
     const gridRef = new L.GridRef({ color: getColor() });
 
     gridRef.update = () => {
-      const zoom = that.getMapZoom();
+      const zoom = that.map.getZoom();
       // calculate granularity
       const color = getColor();
       const bounds = that.map.getBounds();
@@ -328,55 +313,11 @@ const API = {
     gridRef.addTo(this.map);
   },
 
-  /**
-   * Normalises the map zoom level between different projections.
-   * @param layer
-   * @returns {*}
-   */
-  getMapZoom(zoom) {
-    let normalZoom = zoom || this.map.getZoom();
-
-    if (this.currentLayer === 'OS') {
-      normalZoom += OS_ZOOM_DIFF;
-    }
-
-    return normalZoom;
-  },
-
-  onMapZoom() {
-    const zoom = this.getMapZoom();
-    Log(`Location:MainView:Map: executing onMapZoom: ${zoom}`);
-
-    const validOSZoom = API._isValidOSZoom(zoom);
-
-    if (this.currentLayer === 'OS' && !validOSZoom) {
-      // change to WGS84
-      Log('Location:MainView:Map: changing to Sattelite layer');
-      this.map.removeLayer(this.layers.OS);
-      this.map.addLayer(this.layers.Satellite);
-    } else {
-      const isSatellite = this.currentLayer === 'Satellite';
-      if (isSatellite && validOSZoom) {
-        // only change base layer if user is on OS and did not specificly
-        // select OSM/Satellite
-        const inGB = LocHelp.isInGB(this._getCurrentLocation());
-        if (!this.currentLayerControlSelected && inGB) {
-          Log('Location:MainView:Map: changing to OS layer');
-          this.map.removeLayer(this.layers.Satellite);
-          this.map.addLayer(this.layers.OS);
-        }
-      }
-    }
-  },
-
   _repositionMap(dontZoom) {
     const location = this._getCurrentLocation();
     let zoom;
     if (!dontZoom) {
       zoom = this._metresToMapZoom(location.accuracy);
-      if (this.currentLayer === 'OS') {
-        zoom = this._deNormalizeOSzoom(zoom);
-      }
     } else {
       zoom = this.map.getZoom();
     }
@@ -427,21 +368,17 @@ const API = {
     this.currentLayerControlSelected = this.controls._handlingClick;
 
     const center = this.map.getCenter();
-    let zoom = this.getMapZoom();
+    const zoom = this.map.getZoom();
    
-
-    // a change from WGS84 -> OS
     if (nextLayer === 'Ordnance Survey') {
-      zoom = API._deNormalizeOSzoom(zoom);
+      // a change from WGS84 -> OS
       this.map.options.crs = OS_CRS;
-      this.layers.OS.options.maxZoom = MAX_OS_ZOOM;
       this.layers.Landcover.crs =  OS_CRS;
       nextLayer = 'OS';
     }
     else {
       this.map.options.crs = L.CRS.EPSG3857;
       this.layers.Landcover.crs =  L.CRS.EPSG3857;
-      this.layers.OS.options.maxZoom = MAX_OS_ZOOM + OS_ZOOM_DIFF;
     }
 
     this.currentLayer = nextLayer;
@@ -460,32 +397,15 @@ const API = {
   },
 
   /**
-   * Checks if the WGS84 map zoom level fits within OSGB map zoom max/min.
+   * Checks if the zoom level fits within OSGB map zoom max/min.
    * @param zoom
    * @returns {boolean}
    */
   _isValidOSZoom(zoom) {
-    const deNormalizedZoom = zoom - OS_ZOOM_DIFF;
-    return deNormalizedZoom >= 0 && deNormalizedZoom <= MAX_OS_ZOOM - 1;
+    return zoom >= OS_MIN_ZOOM && zoom <= OS_MAX_ZOOM;
   },
 
-  /**
-   * Turns WGS84 map zoom into OSGB zoom.
-   * @param zoom
-   * @returns {number}
-   */
-  _deNormalizeOSzoom(zoom) {
-    const deNormalizedZoom = zoom - OS_ZOOM_DIFF;
-    if (deNormalizedZoom > MAX_OS_ZOOM - 1) {
-      return MAX_OS_ZOOM - 1;
-    } else if (deNormalizedZoom < 0) {
-      return 0;
-    }
-
-    return deNormalizedZoom;
-  },
-
-  /**
+   /**
    * Transform location accuracy to WGS84 map zoom level.
    * @param metres
    * @private
