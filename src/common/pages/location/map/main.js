@@ -38,6 +38,7 @@ import 'os-leaflet';
 import 'leaflet.gridref';
 import bigu from 'bigu';
 import LeafletButton from './leaflet_button_ext';
+import LeafletayerControl from './leaflet_layer_control_ext';
 import mapMarker from './marker';
 import gpsFunctions from './gps';
 import landcover from './landcover';
@@ -204,7 +205,7 @@ const API = {
   addControls() {
     Log('Location:MainView:Map: adding layer controls.');
 
-    this.controls = L.control.layers({
+    this.controls = new LeafletayerControl({
       'Ordnance Survey': this.layers.OS,
       'Open Street Map': this.layers.OSM,
       Satellite: this.layers.Satellite,
