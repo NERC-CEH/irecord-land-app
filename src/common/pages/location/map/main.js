@@ -8,10 +8,10 @@
  |            WGS84   OSGB1936   GRIDREF    GPS ACC.
  |                                ACC.
  |
- |             + 18   12+          4           10m
- |             |        |          4           10m
- |             |        |          3          100m
- |             | 15   9 |          3          100m
+ |             + 18                4           10m
+ |             |                   4           10m
+ |             |                   3          100m
+ |             | 15   9 +          3          100m
  |             | 14   8 |          3          100m
  |             |        |          2         1000m
  |             | 12   6 |          2         1000m
@@ -20,8 +20,7 @@
  |             |        |          1        10000m
  |             |        |          1        10000m
  |             |        |          1        10000m
- |             | 6    0 +          1        10000m
- |             + 5                 1        10000m
+ |             + 6    0 +          1        10000m
  +
  *
  *****************************************************************************/
@@ -34,7 +33,7 @@ import L from 'leaflet';
 import CONFIG from 'config';
 import LocHelp from 'helpers/location';
 import Log from 'helpers/log';
-import 'os-leaflet';
+import 'os-leaflet/OSMapApi';
 import 'leaflet.gridref';
 import bigu from 'bigu';
 import LeafletButton from './leaflet_button_ext';
@@ -44,34 +43,35 @@ import gpsFunctions from './gps';
 import landcover from './landcover';
 import './legend.scss';
 
+
+let OS_CRS = L.OSMapApi.CRS;
 /*
- * L.OSOpenSpace.CRS declares 10 resolutions (0-9)
- * [2500, 1000, 500, 200, 100, 50, 25, 10, 5, 2.5]
- * Of these, only the first 9 are of interest, the 10th being a vector
- * map which loses all the physical features of the 1:50k raster map.
- * Therefore we limit ourselves to MAX_OS_NATIVE_ZOOM = 8.
+ * L.OSMapAPI.CRS declares 10 resolutions (0-9)
+ * [896, 448, 224, 112, 56, 28, 14, 7, 3.5, 1.75]
  * Leaflet can scale up the last native zoom level as long as the 
- * CRS._scales array has corresponding values. By adding three more
- * entries to the scales array we obtain maps for zoom levels of (0-12).
- * The offset between these and normal web mercator zoom levels is
- * OS_ZOOM_DIFF = 6 so this is equivalent to (6-18)
+ * CRS._scales array has corresponding values. 
+ * The first OS zoom level is about the same as the 6th standard web
+ * mercator zoom level.
+ * By adding 6 values to the front of the scales array and setting
+ * OS_ZOOM_OFFSET = -6 we can can have consistent zoom levels used
+ * across the different projections.
  * 
  * Leaflet disables base maps in the layer switcher that do not support
  * the current zoom level. It also disables the zoom buttons when you 
  * reach the limit of zoom for the current base layer.
  */
 
-const OS_MAX_ZOOM = 16;
-const OS_MAX_NATIVE_ZOOM = 14;
-const OS_MIN_ZOOM = 6;
-const OS_ZOOM_OFFSET = 6;
-const WGS84_MIN_ZOOM = 5;
+// Extend the CRS resolutions to emulate the zoom levels of WGS84
+OS_CRS.options.resolutions.push(1.75/2, 1.75/4, 1.75/8);
+OS_CRS.options.resolutions.unshift(896*64, 896*32, 896*16, 896*8, 896*4, 896*2);
+OS_CRS._scales.push(2/1.75, 4/1.75, 8/1.75);
+OS_CRS._scales.unshift(1/(896*64), 1/(896*32), 1/(896*16), 1/(896*8), 1/(896*4), 1/(896*2));
 
-let OS_CRS = L.OSOpenSpace.CRS;
-OS_CRS.options.resolutions.push(1, 0.5, .25);
-OS_CRS.options.resolutions.unshift(160000, 80000, 40000, 20000, 10000, 5000);
-OS_CRS._scales.push(1, 2, 4);
-OS_CRS._scales.unshift(1/160000, 1/80000, 1/40000, 1/20000, 1/10000, 1/5000);
+const OS_MAX_ZOOM = 18;
+const OS_MAX_NATIVE_ZOOM = 15;
+const OS_MIN_ZOOM = 6;
+const OS_ZOOM_OFFSET = -6;
+const WGS84_MIN_ZOOM = 6;
 
 const DEFAULT_LAYER = 'OS';
 const DEFAULT_LAYER_ZOOM = 7
@@ -101,7 +101,8 @@ const API = {
     this._repositionMap();
 
     // show default layer
-    this.layers[this.currentLayer].addTo(this.map);
+//    this.layers[this.currentLayer].addTo(this.map);
+    this.layers.OS.addTo(this.map);
     this.layers.Landcover.addTo(this.map);
     this.$container.dataset.layer = this.currentLayer; // fix the lines between the tiles
 
@@ -163,42 +164,18 @@ const API = {
       layers: 'LC.LandCoverSurfaces',
       attribution: 'Based upon LCM2007 © NERC (CEH) 2011',
       opacity: 0.5,
+      minZoom: OS_MIN_ZOOM,
       crs: OS_CRS,
     });
 
-    const start = new bigu.OSRef(0, 0).to_latLng();
-    const end = new bigu.OSRef(7 * GRID_STEP, 13 * GRID_STEP).to_latLng();
-    const bounds = L.latLngBounds([start.lat, start.lng], [end.lat, end.lng]);
-
-    
-    
-    layers.OS = L.OSOpenSpace.tilelayer(CONFIG.map.os_api_key, null, {
-      crs: OS_CRS,
-      maxZoom: OS_MAX_ZOOM,
+    const key = CONFIG.map.os_api_key;
+    layers.OS = L.OSMapApi.tilelayer(key, {
       maxNativeZoom: OS_MAX_NATIVE_ZOOM,
+      maxZoom: OS_MAX_ZOOM,
       minZoom: OS_MIN_ZOOM,
       zoomOffset: OS_ZOOM_OFFSET,
+      crs: OS_CRS,
     });
-    layers.OS.options.bounds = bounds;
-    
-    layers.OS.on('tileerror', (tile) => {
-      let index = 0;
-      const result = tile.tile.src.match(/missingTileString=(\d+)/i);
-      if (result) {
-        index = parseInt(result[1], 10);
-        index++;
-
-        // don't do it more than few times
-        if (index < 4) {
-          // eslint-disable-next-line
-          tile.tile.src = tile.tile.src.replace(/missingTileString=(\d+)/i, '&missingTileString=' + index);
-        }
-      } else if (index === 0) {
-        // eslint-disable-next-line
-        tile.tile.src = tile.tile.src + '&missingTileString=' + index;
-      }
-    });
-
     return layers;
   },
 
@@ -353,9 +330,7 @@ const API = {
    */
   _refreshMapHeight() {
     Log('Location:MainView:Map: refreshing map height.');
-    // const mapHeight = $(document).height() - 47 - 47 - 44;// - 47 - 38.5;
     this.$container = this.$el.find('#map')[0];
-    // $(this.$container).height(mapHeight);
     $(this.$container).style = 'height: 100vh;';
   },
 
@@ -365,27 +340,41 @@ const API = {
     Log('Location:MainView:Map: updating coord system.');
 
     let nextLayer = e.name;
-
     this.currentLayerControlSelected = this.controls._handlingClick;
 
-    const center = this.map.getCenter();
-    const zoom = this.map.getZoom();
+    if (this.currentLayer === 'OS' || nextLayer === 'Ordnance Survey') {
+      // Switching projection
+      const center = this.map.getCenter();
+      const zoom = this.map.getZoom();
+      const landcover = this.layers.Landcover;
+      const landcoverWmsVersion = parseFloat(landcover.wmsParams.version);
+      const landcoverProjectionKey = landcoverWmsVersion >= 1.3 ? 'crs' : 'srs';
    
-    if (nextLayer === 'Ordnance Survey') {
-      // a change from WGS84 -> OS
-      this.map.options.crs = OS_CRS;
-      this.layers.Landcover.crs =  OS_CRS;
-      nextLayer = 'OS';
-    }
-    else {
-      this.map.options.crs = L.CRS.EPSG3857;
-      this.layers.Landcover.crs =  L.CRS.EPSG3857;
+      if (nextLayer === 'Ordnance Survey') {
+        // a change from WGS84 -> OS
+        this.map.options.crs = OS_CRS;
+        landcover.options.crs =  OS_CRS;
+        landcover.options.minZoom =  OS_MIN_ZOOM;
+        landcover.wmsParams[landcoverProjectionKey] = OS_CRS.code;
+        nextLayer = 'OS';
+      }
+      else {
+        this.map.options.crs = L.CRS.EPSG3857;
+        landcover.options.crs =  L.CRS.EPSG3857;
+        landcover.options.minZoom =  WGS84_MIN_ZOOM;
+        landcover.wmsParams[landcoverProjectionKey] = L.CRS.EPSG3857.code;
+      }
+  
+      // Reset everything to new projection
+      this.map.setView(center, zoom);
+      this.map._resetView(center, zoom, true);
+      if (this.map.hasLayer(landcover)){
+        this.map.removeLayer(landcover);
+        this.map.addLayer(landcover);
+      }
     }
 
     this.currentLayer = nextLayer;
-
-    this.map.setView(center, zoom);
-    this.map._resetView(center, zoom, true);
     this.$container.dataset.layer = this.currentLayer; // fix the lines between the tiles
   },
 
