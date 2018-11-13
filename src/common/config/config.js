@@ -5,7 +5,7 @@ import Indicia from 'indicia';
 
 import generalSurvey from './general_survey';
 
-const HOST = process.env.APP_INDICIA_API_HOST || 'https://mysoilsample.org/';
+const HOST = process.env.APP_INDICIA_API_HOST || 'https://soil.irecord.org.uk/';
 
 const CONFIG = {
   // variables replaced on build
