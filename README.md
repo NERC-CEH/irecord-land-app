@@ -1,6 +1,6 @@
 # iRecord Land App
 
-This app started as a clone of the  [mySoil Sample App](https://github.com/NERC-CEH/mysoil-sample-app) v0.4.0 which was, in turn, created from the [iRecord App](https://github.com/NERC-CEH/irecord-app) v2.0.0. The build instructions are the same, copied.
+This app started as a clone of the  [mySoil Sample App](https://github.com/NERC-CEH/mysoil-sample-app) v0.4.0 which was, in turn, created from the [iRecord App](https://github.com/NERC-CEH/irecord-app) v2.0.0. The build instructions are the same, copied.  Drupal domain is now iRecord Soil at https://soil.irecord.org.uk
 
 ## Configuration
 
@@ -79,11 +79,19 @@ npm run build:cordova
 npm run build:cordova:update
 ```
 
-- **Android build**:
+#### Android build
+
+- Generate signed apk files.
 
 ```bash
 npm run build:cordova:android
 ```
+The build requires an environment variable (single quoted) to locate the android keystore
+```bash
+KEYSTORE='/Path/to/android.keystore'
+```
+- Copy `android-armv7.apk` and `android-x86.apk` from `dist/cordova/dist` to the Google Play store.
 
-- **iOS build** open `dist/cordova/platforms/ios/iRecord App.xcodeproj` in XCode
+#### iOS build
 
+- open `dist/cordova/platforms/ios/iRecord Soil App.xcodeproj` in XCode
