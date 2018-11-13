@@ -33,7 +33,7 @@ import L from 'leaflet';
 import CONFIG from 'config';
 import LocHelp from 'helpers/location';
 import Log from 'helpers/log';
-import 'os-leaflet';
+import 'os-leaflet/OSMapApi';
 import 'leaflet.gridref';
 import bigu from 'bigu';
 import LeafletButton from './leaflet_button_ext';
