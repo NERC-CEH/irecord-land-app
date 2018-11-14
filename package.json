@@ -4,7 +4,7 @@
   "title": "iRecord Land",
   "description": "Mobile application for data collection about land use and soil.",
   "version": "0.1.0",
-  "build": "1",
+  "build": "2",
   "homepage": "https://land.irecord.org.uk",
   "author": {
     "name": "Jim Bacon",

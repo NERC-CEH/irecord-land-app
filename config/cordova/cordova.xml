@@ -26,6 +26,7 @@
     <plugin name="cordova-plugin-google-analytics" spec="~0.8.1" />
     <plugin name="cordova-sqlite-storage" spec="~2.0.2" />
     <plugin name="cordova-plugin-camera" spec="~2.4.1" />
+    <plugin name="cordova-custom-config" spec="^5.0.2" />
 
     <access origin="*" />
     <allow-intent href="http://*/*" />
@@ -67,6 +68,25 @@
     </platform>
     
     <platform name="ios">
+        <custom-config-file platform="ios" target="*-Info.plist" parent="NSCameraUsageDescription" >
+            <string>To access your camera when attaching images to records</string>
+        </custom-config-file>
+        <custom-config-file platform="ios" target="*-Info.plist" parent="NSPhotoLibraryAddUsageDescription" >
+            <string>To save images when attaching to records</string>
+        </custom-config-file>
+        <custom-config-file platform="ios" target="*-Info.plist" parent="NSPhotoLibraryUsageDescription" >
+            <string>To access your photo library when attaching images to records</string>
+        </custom-config-file>
+        <custom-config-file platform="ios" target="*-Info.plist" parent="NSLocationWhenInUseUsageDescription" >
+            <string>To access your GPS when automatically attaching locations to records</string>
+        </custom-config-file>
+        <custom-config-file platform="ios" target="*-Info.plist" parent="NSLocationAlwaysAndWhenInUseUsageDescription" >
+            <string>To access your GPS when automatically attaching locations to records</string>
+        </custom-config-file>
+        <custom-config-file platform="ios" target="*-Info.plist" parent="NSLocationAlwaysUsageDescription" >
+            <string>To access your GPS when automatically attaching locations to records</string>
+        </custom-config-file>    
+
         <!-- iOS 8.0+ -->
         <!-- iPhone 6 Plus  -->
         <icon src="../../config/cordova/images/ios/icon/icon-60@3x.png" width="180" height="180" />
