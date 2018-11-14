@@ -1,7 +1,7 @@
 {
   "name": "irecord-land-app",
   "id": "uk.ac.ceh.irland",
-  "title": "iRecord Land App",
+  "title": "iRecord Land",
   "description": "Mobile application for data collection about land use and soil.",
   "version": "0.1.0",
   "build": "1",
