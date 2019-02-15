@@ -1,5 +1,6 @@
 <div class="info-message">
   <p>This record has been submitted and cannot be edited within this App.
+<!--
     <% if (obj.id) { %>
     <a href="<%= obj.site_url %>/poc-user-edit?sample_id=<%= obj.id %>"
        class="btn btn-block btn-narrow">
@@ -9,6 +10,7 @@
     <% } else { %>
       Go to the <a href="<%= obj.site_url %>">iRecord Land website</a> to edit.</p>
     <% } %>
+--!>
 </div>
 
 <ul class="table-view core inputs info no-top">

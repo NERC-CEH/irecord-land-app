@@ -178,11 +178,12 @@ const config = {
       }
     }
 
+    /*
     // soil type required
     if (!attrs['soil-type']) {
       attributes['soil-type'] = 'Missing';
     }
-
+    */
     return [attributes, null, null];
   },
 };

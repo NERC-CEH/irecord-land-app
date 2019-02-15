@@ -104,8 +104,10 @@ const API = {
     );
 
     // landcover
+    /*
     mainView.on('landcover:update', (data) => API.onLandcoverUpdate(sample, data));
     mainView.on('landcover:error', (error) => API.onLandcoverError(error));
+    */
 
     mainView.on('lock:click:location', API.onLocationLockClick);
     mainView.on('lock:click:name', API.onNameLockClick);
@@ -274,6 +276,7 @@ If a better fix cannot be obtained, enter a position by hand.`;
     });
   },
 
+/*
   onLandcoverUpdate(sample, data) {
     if (sample.get('habitat') !== data) {
       sample.set('habitat', data);
@@ -301,7 +304,7 @@ Please pick a value from the list instead.`;
       }],
     });
   },
-
+*/
   /**
    * Update location name that was typed in.
    * @param sample

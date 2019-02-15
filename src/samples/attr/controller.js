@@ -69,7 +69,7 @@ const API = {
     // if exit on selection click
     mainView.on('save', () => {
       API.onExit(mainView, sample, attr, () => {
-        window.history.back();
+      window.history.back();
       });
     });
 
@@ -127,8 +127,9 @@ const API = {
         newVal = values[attr];
 
         // todo:validate before setting up
-        sample.set(attr, values[attr]);
-        break;
+        //sample.set(attr, values[attr]);
+        sample.set(attr, (newVal == currentVal ? null : newVal))
+	break;
   }
 
     // save it
