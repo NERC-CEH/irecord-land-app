@@ -13,7 +13,8 @@
       <li>Chris Bell (CEH)</li>
       <li>Jim Bacon (CEH)</li>
       <li>Biren Rathod (CEH)</li>
-      <li>Karolis Kazlauskis (CEH)</li>
+      <li>Milo Brooks (CEH)</li>
+      <li>Karolis Kazlauskis</li>
     </ul>
     </p>
     <p>
