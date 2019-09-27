@@ -10,11 +10,15 @@
       <li>David Robinson (CEH)</li>
       <li>Patrick Bell (BGS)</li>
       <li>David Roy (CEH)</li>
-      <li>Chris Bell (CEH)</li>
+      <li>Clare Rowland</li>
+      <li>Dan Morton</li>
+      <li>Simon Smart</li>
+      <li>Lisa Norton</li>
       <li>Jim Bacon (CEH)</li>
       <li>Biren Rathod (CEH)</li>
       <li>Milo Brooks (CEH)</li>
       <li>Karolis Kazlauskis</li>
+      <li>Chris Bell (CEH)</li>
     </ul>
     </p>
     <p>

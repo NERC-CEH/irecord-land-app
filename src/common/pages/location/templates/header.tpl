@@ -51,20 +51,16 @@
     </div>
     <% } %>
 
-<!--    <div class="input-row" id="habitat-row">
+    <div class="input-row" id="habitat-row">
       <a href="#samples/<%- obj.id %>/edit/habitat" id="habitat-button"
         class="<%- obj.locks['habitat'] ? 'lock' : 'navigate-right' %>">
        <span class="media-object pull-right descript"><%= obj.habitat %></span>
        Broad habitat
      </a>
  
-    </div> -->
+    </div>
 
   </div>
-
-
- 
-
 
 <!--   <div class="input-row" id="location-landcover-row">
     <label class="media-object pull-left icon icon-location" for="location-gridref" />
