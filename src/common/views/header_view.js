@@ -30,11 +30,13 @@ export default Marionette.View.extend({
   },
 
   navigateBack() {
-    if (this.options.onExit) {
+    const title = this.model.get('title');
+    
+    if (((title === 'date') || (title === 'comment')) && this.options.onExit) {
       this.options.onExit();
     } else {
+      //no need to save any changes as we simply backed out of the window and left everything as it was
       window.history.back();
     }
   },
 });
-
