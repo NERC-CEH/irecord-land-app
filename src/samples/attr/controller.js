@@ -125,10 +125,15 @@ const API = {
       default:
         currentVal = sample.get(attr);
         newVal = values[attr];
-
+        
+        if ((attr != 'date') && (attr != 'comment') && (newVal == currentVal)) {
+           //for radio selections deselect if newVal is same as currentVal
+           newVal = null
+        }
+           
         // todo:validate before setting up
-        //sample.set(attr, values[attr]);
-        sample.set(attr, (newVal == currentVal ? null : newVal))
+        sample.set(attr, newVal);
+        //sample.set(attr, (newVal == currentVal ? null : newVal))
 	break;
   }
 
