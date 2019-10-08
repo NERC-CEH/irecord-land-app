@@ -160,9 +160,9 @@ const API = {
       minZoom: WGS84_MIN_ZOOM,
     });
 
-    layers.Landcover = L.tileLayer.wms('https://catalogue.ceh.ac.uk/maps/78b670a2-5483-45ab-b54f-9dce9c378197?', {
-      layers: 'LC.25m.GB',
-      attribution: 'Based upon LCM2015 © NERC (CEH) 2015',
+    layers.Landcover = L.tileLayer.wms('https://catalogue.ceh.ac.uk/maps/987544e0-22d8-11e4-8c21-0800200c9a66?', {
+      layers: 'LC.LandCoverSurfaces',
+      attribution: 'Based upon LCM2007 © NERC (CEH) 2011',
       opacity: 0.5,
       minZoom: OS_MIN_ZOOM,
       crs: OS_CRS,
@@ -187,7 +187,7 @@ const API = {
       'Open Street Map': this.layers.OSM,
       Satellite: this.layers.Satellite,
     }, {
-      'Land Cover 2015': this.layers.Landcover
+      'Land Cover 2007': this.layers.Landcover
     });
     this.map.addControl(this.controls);
   },
