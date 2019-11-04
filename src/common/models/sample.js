@@ -18,7 +18,7 @@ let Sample = Indicia.Sample.extend({ // eslint-disable-line
   host_url: CONFIG.indicia.host,
   user: userModel.getUser.bind(userModel),
   password: userModel.getPassword.bind(userModel),
-
+    
   store, // offline store
 
   Occurrence,

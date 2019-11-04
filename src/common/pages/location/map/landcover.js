@@ -11,9 +11,9 @@ const API = {
       url: url,
       dataType: "json",
       success: function (data, status, xhr) {
-        const elLandcover = that.$el.find('#location-landcover');
+        //const elLandcover = that.$el.find('#location-landcover');
         if ($.isEmptyObject(data)) {
-          that.triggerMethod('landcover:update', 'Suggetion unavailable');
+          that.triggerMethod('landcover:update', undefined);
         }
         else {
           const landcover = data.layers[0].features[0].attributes.class;

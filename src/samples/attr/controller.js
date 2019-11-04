@@ -77,21 +77,31 @@ const API = {
     radio.trigger('app:footer:hide');
   },
 
-  onLockClick(view) {
+  onLockClick() {
     Log('Samples:Attr:Controller: lock clicked.');
-    const attr = view.options.attr;
+    const attr = this.options.attr;
+    const currentVal = this.model.get('sample').get(attr);
+    const currentLock = appModel.getAttrLock(attr);
     // invert the lock of the attribute
     // real value will be put on exit
-    if (attr === 'number') {
-      if (appModel.getAttrLock(attr)) {
-        appModel.setAttrLock(attr, !appModel.getAttrLock(attr));
-      } else {
-        appModel.setAttrLock('number-ranges',
-          !appModel.getAttrLock('number-ranges'));
-      }
-    } else {
-      appModel.setAttrLock(attr, !appModel.getAttrLock(attr));
-    }
+    switch (attr) {
+      case 'number':
+        if (currentLock) {
+          appModel.setAttrLock(attr, !currentLock);
+        } else {
+          appModel.setAttrLock('number-ranges',
+            !appModel.getAttrLock('number-ranges'));
+        };
+        break;
+      default:
+        if (currentLock) {
+          //lock is on so turn it off
+          appModel.setAttrLock(attr, false); 
+        } else if (currentVal) {
+          //lock is off and currentVal is defined so turn it on by initializing it with current value
+          appModel.setAttrLock(attr, currentVal);
+        };
+    };
   },
 
   onExit(mainView, sample, attr, callback) {
@@ -110,33 +120,68 @@ const API = {
 
     let currentVal;
     let newVal;
+    let suggestHab;
     const occ = sample.getOccurrence();
 
+    currentVal = sample.get(attr);
+    newVal = values[attr];
     switch (attr) {
       case 'date':
-        currentVal = sample.get('date');
 
         // validate before setting up
-        if (values.date && values.date.toString() !== 'Invalid Date') {
-          newVal = values.date;
-          sample.set('date', newVal);
+        if (!newVal || ((newVal.toString() === 'Invalid Date'))) {
+          //keep old value as new one is invalid
+          newVal = currentVal;
+        }
+        API.confirmAttribute(attr, newVal, currentVal, sample, callback);
+        break;
+     default:
+        if ((attr !== 'comment') && (newVal == currentVal)) {
+          //for radio selections deselect if newVal is same as currentVal
+          newVal = undefined;
+        };
+        
+        suggestHab = sample.get('suggestedHabitat');
+         
+        if ((attr == 'habitat') && (suggestHab !== undefined) && (newVal !== suggestHab)) {
+          //are you sure? confirm --> sample set no --> keep old habitat
+          let body = 'Habitat does not match Landcover 2015 suggested habitat';
+          body += '</br><i>Please confirm</i>';
+
+          radio.trigger('app:dialog', {
+            title: 'Change habitat',
+            body,
+            buttons: [
+              {
+                title: 'Cancel',
+                onClick() {
+                  //reset to current value
+                  API.confirmAttribute(attr, currentVal, currentVal, sample, callback);
+                  Log('Samples:Attr:Controller: restoring previous habitat');
+                  radio.trigger('app:dialog:hide');
+                },
+              },
+              {
+                title: 'Confirm',
+                class: 'btn-positive',
+                onClick() {
+                  API.confirmAttribute(attr, newVal, currentVal, sample, callback);
+                  Log('Samples:Attr:Controller: confirming new habitat');
+                  radio.trigger('app:dialog:hide');
+                },
+              },
+            ]
+          });
+        } else {
+          // todo:validate before setting up
+          API.confirmAttribute(attr, newVal, currentVal, sample, callback);
         }
         break;
-      default:
-        currentVal = sample.get(attr);
-        newVal = values[attr];
-        
-        if ((attr != 'date') && (attr != 'comment') && (newVal == currentVal)) {
-           //for radio selections deselect if newVal is same as currentVal
-           newVal = null
-        }
-           
-        // todo:validate before setting up
-        sample.set(attr, newVal);
-        //sample.set(attr, (newVal == currentVal ? null : newVal))
-	break;
-  }
+     };
+  },
 
+  confirmAttribute(attr, newVal, currentVal, sample, callback) {
+    sample.set(attr, newVal);
     // save it
     sample.save()
       .then(() => {
@@ -156,23 +201,29 @@ const API = {
   },
 
   updateLock(attr, newVal, currentVal) {
-    let lockedValue = appModel.getAttrLock(attr);
+    const lockedValue = appModel.getAttrLock(attr);
 
     switch (attr) {
       case 'date':
         if (!lockedValue ||
           (lockedValue && DateHelp.print(newVal) === DateHelp.print(new Date()))) {
           // don't lock current day
-          appModel.setAttrLock(attr, null);
+          appModel.setAttrLock(attr, false);
         } else {
           appModel.setAttrLock(attr, newVal);
         }
         break;
       default:
-        if (lockedValue && (lockedValue === true || lockedValue === currentVal)) {
-          appModel.setAttrLock(attr, newVal);
-        }
-    }
+        if (lockedValue) {
+          if (newVal !== undefined) {
+            //only change lock value if defined
+            appModel.setAttrLock(attr, newVal);
+          } else {
+            //can't have undefined lock so unlock it
+            appModel.setAttrLock(attr, false);
+          }
+        };
+    };
   },
 };
 

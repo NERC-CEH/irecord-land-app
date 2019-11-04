@@ -182,7 +182,10 @@ const API = {
 
   save(sample, mainView) {
     Log('Samples:Edit:Controller: save clicked.');
-
+    
+    //strip out the extra suggestedHabitat attribute to avoid issues with indicia
+    sample = sample.unset('suggestedHabitat', 'silent');
+    
     const promise = sample.setToSend();
 
     // invalid sample

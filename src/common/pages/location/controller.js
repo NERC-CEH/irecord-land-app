@@ -274,10 +274,35 @@ If a better fix cannot be obtained, enter a position by hand.`;
     });
   },
 
+  onLandcoverUpdate(sample, newVal) {
+    const currentVal = sample.get('habitat');
+    const lockedValue = appModel.getAttrLock('habitat');
+
+    //update suggestedHabitat whether it is defined or not
+    sample.set('suggestedHabitat', newVal);
+
+    if (newVal && (currentVal !== newVal)) {
+      //we have a change of suggestedHabitat and it is defined
+      //so update the sample habitat
+      sample.set('habitat', newVal);
+      if (lockedValue) {
+          //lock is on so update the lock value
+          appModel.setAttrLock('habitat', newVal);
+        };
+      };
+ 
+    sample.save()
+      .catch((error) => {
+        Log(error, 'e');
+        radio.trigger('app:dialog:error', error);
+    });
+  },
+  
+  /*
   onLandcoverUpdate(sample, data) {
     if (sample.get('habitat') !== data) {
       sample.set('habitat', data);
-//      sample.trigger('change:habitat');
+      sample.set('suggestedHabitat', data);
       return sample.save()
         .catch((error) => {
           Log(error, 'e');
@@ -285,6 +310,7 @@ If a better fix cannot be obtained, enter a position by hand.`;
         });
       }
   },
+  */
 
   onLandcoverError(error) {
     const help = `

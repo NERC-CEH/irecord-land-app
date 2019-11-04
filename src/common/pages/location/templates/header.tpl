@@ -55,7 +55,7 @@
       <a href="#samples/<%- obj.id %>/edit/habitat" id="habitat-button"
         class="<%- obj.locks['habitat'] ? 'lock' : 'navigate-right' %>">
        <span class="media-object pull-right descript"><%= obj.habitat %></span>
-       Broad habitat
+       Broad habitat <i>(is this correct?)</i>
      </a>
  
     </div>
