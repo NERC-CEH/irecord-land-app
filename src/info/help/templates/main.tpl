@@ -39,7 +39,7 @@
       (synced to the database). Once it has successfully reached
       the database the record becomes unavailable for new edits.
       To further edit it
-      please use the <a href="https://mysoilsample.org">iRecord Land Website</a>.
+      please use the <a href="https://land.irecord.org.uk">iRecord Land Website</a>.
       <br>
       <br>
       <b>Note:</b> you have to be signed in to your account and have a network connection,

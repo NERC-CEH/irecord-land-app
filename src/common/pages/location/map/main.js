@@ -106,6 +106,9 @@ const API = {
     this.layers.Landcover.addTo(this.map);
     this.$container.dataset.layer = this.currentLayer; // fix the lines between the tiles
 
+    //use the layers to initialise suggested habitat in sample model
+    this.addSuggestedHabitat(this.model.get('sample'));
+
     this.map.on('baselayerchange', this._updateCoordSystem, this);
 
     // Event triggered when land cover map overlay enabled.
@@ -177,6 +180,35 @@ const API = {
       crs: OS_CRS,
     });
     return layers;
+  },
+
+  addSuggestedHabitat(sample) {
+    Log('Location:MainView:Map: adding suggested habitat.');
+    const location = sample.get('location');
+    
+    if ((location === undefined) || sample.get('suggestedHabitat')) {
+      return;
+    };
+    
+    const latlng = L.latLng(location.latitude, location.longitude);
+    const url = this.getFeatureInfoUrl(this.layers.Landcover, latlng, {});
+    const that = this;
+    $.ajax({
+      url: url, 
+      dataType: "json", 
+      success: function (data, status, xhr) {
+        //const elLandcover = that.$el.find('#location-landcover');
+        if ($.isEmptyObject(data)) {
+          sample.set('suggestedHabitat', undefined);
+        }
+        else {
+          sample.set('suggestedHabitat', data.layers[0].features[0].attributes.class);
+        }
+      },
+      error: function (xhr, status, error) {
+        that.triggerMethod('landcover:error', error);
+      }
+    });
   },
 
   addControls() {
